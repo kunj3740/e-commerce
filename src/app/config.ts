@@ -1,1 +1,1 @@
-export const BACKEND_URL = "";
+export const JWT_SECRET = "kunj";
