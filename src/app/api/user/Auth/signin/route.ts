@@ -11,8 +11,8 @@ export  async function POST(req:Request){
                 url: process.env.DATABASE_URL, // Assuming you have this environment variable set
               },
             },
-     });
-
+     })
+    
     const body = await req.json();
     const { success } = signinInput.safeParse(body);
     if (!success) {

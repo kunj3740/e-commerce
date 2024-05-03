@@ -8,7 +8,7 @@ const Appbar = () => {
   
   return (
     <header className="min-w-[1000px]">
-      <div className="flex bg-amazonclone text-white h-[70px]">
+      <div className="flex bg-black text-white h-[70px]">
         {/* Left */}
         <div className="flex items-center m-4">
           <Link href={"/"}>

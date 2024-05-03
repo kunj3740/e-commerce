@@ -12,9 +12,63 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  password String
-  username  String?
+enum OrederStatus{
+  Pending
+  Delivered
+  cancelled
+}
+
+
+model User{
+  id          String      @id @default(uuid())
+  username    String?
+  email       String      @unique
+  password    String
+  phoneno     String?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  orders      Order[]
+  address     Address?
+}
+
+model Address{
+  id         String      @id @default(uuid())
+  address    String?
+  pincode    Int?
+  state      String?
+  city       String?
+  country    String?
+  userId     String      @unique
+  user       User        @relation(fields: [userId], references: [id])
+}
+
+model Product{
+  id                   String               @id @default(uuid())
+  product_name         String
+  product_description  String?
+  price                Int
+  stock                Int
+  image                String?
+  createdAt            DateTime?            @default(now())
+  updatedAt            DateTime             @updatedAt
+  category             String 
+  Category             Category             @relation(fields: [category], references: [id])
+}
+
+model Category{
+  id          String     @id @default(uuid())
+  name        String     @unique
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime
+  product     Product[]
+} 
+
+model Order{
+  id          String              @id @default(uuid())
+  userId      String
+  user        User                @relation(fields: [userId], references: [id])
+  createdAt   DateTime            @default(now())
+  updatedAt   DateTime            @updatedAt
+  status      OrederStatus        @default(Pending)
+  products    Json
 }
