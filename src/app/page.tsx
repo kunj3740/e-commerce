@@ -4,11 +4,11 @@ import HomePage from "@/components/Homepage";
 
 export default function Home() {
   return (
-    <div className="flex flex-col">
+    <div className="">
       <div className="">
         <Appbar/>
       </div>
-      <div className="-mt-10">
+      <div className="">
         <HomePage />
       </div>
     </div>

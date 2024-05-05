@@ -7,7 +7,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 const Appbar = () => {
   
   return (
-    <header className="min-w-[1000px]">
+    <header className="min-w-[1000px] h-[70px]">
       <div className="flex bg-black text-white h-[70px]">
         {/* Left */}
         <div className="flex items-center m-4">

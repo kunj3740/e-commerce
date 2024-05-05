@@ -2,6 +2,7 @@
 import React, { useRef } from "react";
 import { useScroll, useTransform, motion, MotionValue } from "framer-motion";
 import Appbar from "./Appbar";
+import HomepageProductCard from "./HomepageProductCard";
 
 
 
@@ -39,7 +40,7 @@ export const CardComponent = ({
 
   return (
     <div
-      className="h-[60rem] md:h-[80rem]  justify-center relative p-2 md:p-20"
+      className="h-[60rem] md:h-[55rem] items-center justify-center relative p-2 md:p-10"
       ref={containerRef}
     >
       <div
@@ -64,7 +65,7 @@ export const Header = ({ translate, titleComponent }: any) => {
       style={{
         translateY: translate,
       }}
-      className="text-center font-extrabold text-4xl"
+      className="text-center  font-extrabold text-4xl"
     >
       {titleComponent}
     </motion.div>
@@ -89,10 +90,15 @@ export const Card = ({
         boxShadow:
           "0 0 #0000004d, 0 9px 20px #0000004a, 0 37px 37px #00000042, 0 84px 50px #00000026, 0 149px 60px #0000000a, 0 233px 65px #00000003",
       }}
-      className=" mx-auto h-[30rem] md:h-[30rem] mb-[100px] w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
+      className=" mx-auto h-[30rem] md:h-[40rem] mb-[100px] w-full border-4 border-[#6C6C6C] p-2 md:p-6 bg-[#222222] rounded-[30px] shadow-2xl"
     >
       <div className=" h-full w-full flex justify-center items-center text-6xl font-extrabold overflow-hidden rounded-2xl bg-gray-100 dark:bg-zinc-900 md:rounded-2xl md:p-4 ">
-        {children}
+          <div className="grid grid-cols-2 md:grid-cols-4">
+            <HomepageProductCard props="../images/product_1.jpg" />
+            <HomepageProductCard props="../images/product_2.jpg" />
+            <HomepageProductCard props="../images/product_3.jpg" />
+            <HomepageProductCard props="../images/product_4.jpg" />
+          </div>
       </div>
     </motion.div>
   );
