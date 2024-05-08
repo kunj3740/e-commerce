@@ -18,7 +18,7 @@ export const HomepageProductCard  = ( { imgSrc , productname , price } :  any   
             </a>
             <div className="mt-2 mb-5 flex items-center justify-between">
               <p>
-                <span className="text-3xl font-bold text-slate-900">Rs.{price}</span>
+                <span className="text-xl font-bold text-slate-900">Rs.{price}</span>
               </p>
             </div>
             <a href="#" className="flex items-center justify-center rounded-md bg-slate-900 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-gray-700 focus:outline-none focus:ring-4 focus:ring-blue-300">

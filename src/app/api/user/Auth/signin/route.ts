@@ -1,58 +1,77 @@
 import { NextResponse } from "next/server";
-import { PrismaClient } from '@prisma/client';
-import { signinInput } from "@/schemas/signinInputs"
 import { sign } from 'jsonwebtoken';
-import { JWT_SECRET } from "@/app/config";
+import jwt from "jsonwebtoken";
+import  prisma  from "@/lib/prismadb"
+import { signinInput } from "@/schemas/signinInputs";
+import { use } from "react";
+// var bcrypt = require("bcryptjs");
 
 export  async function POST(req:Request){
-    const prisma = new PrismaClient({
-            datasources: {
-              db: {
-                url: process.env.DATABASE_URL, // Assuming you have this environment variable set
-              },
-            },
-     })
-    
     const body = await req.json();
+    const { email, password } = body; 
     const { success } = signinInput.safeParse(body);
-    if (!success) {
-        return NextResponse.json(
-        { 
-            message: 'Inputs not correct'
-        },
-        { status: 400 }
-    );
-    }
-    
-      try {
-        const user = await prisma.user.findFirst({
-            where:{
-              email: body.email,
-              password: body.password,
+     if (!success) {
+          return NextResponse.json(
+            { 
+                message: 'Inputs not correct'
             },
+            { status: 400 }
+        );
+    }
+      try {
+        
+        const user = await prisma.user.findFirst({
+          where:{
+            email: body.email,
+            password: body.password,
+          },
         })
+    
         if(!user){
            return NextResponse.json(
             { 
-                message:"username or password is wrong:"
+                message:"Invalid"
             },
             { status: 403 }
           );
         }
+        const jwt = await sign({
+          id: user.id, username: user.username, email: user.email
+        },process.env.JWT_SECRET || "kunj");
 
-        const jwt = sign({
-            id: user.id
-          },JWT_SECRET);
+        return NextResponse.json(jwt);
+        // const passwordMatching = await bcrypt.compare(password, user.password);
+
+        // if (!passwordMatching) {
+        //   return new NextResponse("Invalid credentials", { status: 401 });
+        // }
+
+        // const token = jwt.sign(
+        //   { userId: user.id, username: user.username, email: user.email },
+        //   process.env.JWT_SECRET || "",
+        //   {
+        //     expiresIn: "24h",
+        //   }
+        // );
       
-        return Response.json({
-            jwt : jwt
-        },
-        { status : 200 }
-        )
-        
+        // const modifiedUser = { name: user.username, email: user.email, id: user.id };
+
+        // const response = new NextResponse(
+        //   JSON.stringify({
+        //     message: "Successfully logged in",
+        //     user: { ...modifiedUser },
+        //   })
+        // );
+    
+        // response.headers.set(
+        //   "Set-Cookie",
+        //   `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`
+        // );
+    
+        // return response;
+          
+
       } catch (e) {
-        console.log("error");
-        console.log(e);
         return NextResponse.json(
             { 
                 message:"Invalid"

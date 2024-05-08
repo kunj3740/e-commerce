@@ -8,7 +8,7 @@ const Appbar = () => {
   
   return (
     <header className="min-w-[1000px] h-[70px]">
-      <div className="flex bg-black text-white h-[70px]">
+      <div className="flex bg-slate-950 text-white h-[70px]">
         {/* Left */}
         <div className="flex items-center m-4">
           <Link href={"/"}>
@@ -27,17 +27,17 @@ const Appbar = () => {
           <Search />
         </div>
         {/* Right */}
-        <div className="flex items-center m-4">
-          <Link href={"/signin"}>
-            <div className="pr-4 pl-4">
-                <div className="text-xs xl:text-xl font-bold">Login</div>
-            </div>
-          </Link>    
+        <div className="flex items-center m-4">   
           <Link href={"/checkout"}>
             <div className="flex pr-3 pl-3">
               <ShoppingCartIcon className="h-[48px]" />
             </div>
           </Link>
+          <Link href={"/signin"}>
+            <div className="pr-4 pl-4 hover:bg-slate-800 rounded-md">
+                <div className="text-xs xl:text-xl font-bold">Login</div>
+            </div>
+          </Link> 
         </div>
       </div>
       

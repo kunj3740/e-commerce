@@ -7,7 +7,7 @@ import HomePageLamp from "./HomePageLamp";
 
 const HomePage = () => {
   return (
-    <div className="bg-slate-100">
+    <div className="bg-slate-100 ">
       <HomePageLamp children="Ship Shop Shou"/>
     
       <div className="mt-16">
@@ -19,7 +19,7 @@ const HomePage = () => {
           </svg>
             Books
           </div>
-        <div className="h-1 bg-slate-200"></div>
+        <div className="h-1 bg-slate-200 "></div>
             <div className="md:ml-4">
                 <div className="grid grid-cols-2 md:grid-cols-4">
                 <HomepageProductCard imgSrc="../images/product_1_small.jpg" productname="Guinness book of world record" price="199"/>
