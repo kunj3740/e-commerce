@@ -3,21 +3,20 @@ import { ChangeEvent, useState } from "react";
 import {  useRouter } from 'next/navigation'
 import  axios  from "axios";
 import Link from "next/link";
+import { Stringifier } from "postcss";
 
 
 export const Signup = () =>{
     const navigate = useRouter();
-    const [ inputs , setInputs ] = useState({
+    const [ inputs , setInputs ] = useState<{username ?: string , email : string , password : string}>({
         username : "",
         email : "",
         password : ""
     })
     async function sendRequest(){
-        
+        console.log(inputs);
         try{
-            const response = await axios.post("http://localhost:3000/api/user/Auth/signup",{inputs});
-            const jwt =  response.data;
-            localStorage.setItem("token",jwt);
+            const response = await axios.post("http://localhost:3000/api/user/Auth/signup", inputs );
             navigate.push("/");
         }
         catch(e){

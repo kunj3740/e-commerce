@@ -3,8 +3,7 @@ import { sign } from 'jsonwebtoken';
 import jwt from "jsonwebtoken";
 import  prisma  from "@/lib/prismadb"
 import { signinInput } from "@/schemas/signinInputs";
-import { use } from "react";
-// var bcrypt = require("bcryptjs");
+var bcrypt = require("bcryptjs");
 
 export  async function POST(req:Request){
     const body = await req.json();
@@ -18,14 +17,12 @@ export  async function POST(req:Request){
             { status: 400 }
         );
     }
+    
       try {
         
-        const user = await prisma.user.findFirst({
-          where:{
-            email: body.email,
-            password: body.password,
-          },
-        })
+        const user = await prisma.user.findUnique({
+          where: { email },
+        });
     
         if(!user){
            return NextResponse.json(
@@ -35,42 +32,38 @@ export  async function POST(req:Request){
             { status: 403 }
           );
         }
-        const jwt = await sign({
-          id: user.id, username: user.username, email: user.email
-        },process.env.JWT_SECRET || "kunj");
 
-        return NextResponse.json(jwt);
-        // const passwordMatching = await bcrypt.compare(password, user.password);
+        const passwordMatching = await bcrypt.compare(password, user.password);
 
-        // if (!passwordMatching) {
-        //   return new NextResponse("Invalid credentials", { status: 401 });
-        // }
+        if (!passwordMatching) {
+          return new NextResponse("Invalid credentials", { status: 401 });
+        }
 
-        // const token = jwt.sign(
-        //   { userId: user.id, username: user.username, email: user.email },
-        //   process.env.JWT_SECRET || "",
-        //   {
-        //     expiresIn: "24h",
-        //   }
-        // );
+        const token = jwt.sign(
+          { userId: user.id, username: user.username, email: user.email },
+          process.env.JWT_SECRET || "",
+          {
+            expiresIn: "24h",
+          }
+        );
       
-        // const modifiedUser = { name: user.username, email: user.email, id: user.id };
+        const modifiedUser = { name: user.username, email: user.email, id: user.id };
 
-        // const response = new NextResponse(
-        //   JSON.stringify({
-        //     message: "Successfully logged in",
-        //     user: { ...modifiedUser },
-        //   })
-        // );
+        const response = new NextResponse(
+          JSON.stringify({
+            message: "Successfully logged in",
+            user: { ...modifiedUser },
+          })
+        );
     
-        // response.headers.set(
-        //   "Set-Cookie",
-        //   `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`
-        // );
+        response.headers.set(
+          "Set-Cookie",
+          `token=${token}; HttpOnly; Path=/; Max-Age=${7 * 24 * 60 * 60}`
+        );
     
-        // return response;
+        return response;
           
-
+        
       } catch (e) {
         return NextResponse.json(
             { 

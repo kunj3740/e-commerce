@@ -1,14 +1,16 @@
 import prisma from "@/lib/prismadb";
 import { NextResponse } from "next/server";
-export async function GET(
+export async function POST(
     req : Request,
-    context : { params : { productId : string }}
 ) {
     try{
-        console.log( req.url );
-        const product = await prisma.product.findUnique({
+        const body = await req.json();
+        const product = await prisma.product.findFirst({
+            include:{
+                Category:true,
+            },
             where:{
-                id : context.params.productId
+                id : body.productId
             }
         });
         if( product ){

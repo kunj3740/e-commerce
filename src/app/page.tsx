@@ -1,5 +1,5 @@
 import Appbar from "@/components/Appbar";
-import HomePage from "@/components/Homepage";
+import HomePage from "@/components/homepage/Homepage";
 
 export default function Home() {
   return (

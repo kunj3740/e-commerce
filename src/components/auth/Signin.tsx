@@ -13,10 +13,10 @@ export const Signin = () =>{
     })
     async function sendRequest(){
         try{
-            const responce = await axios.post("http://localhost:3000/api/user/Auth/signin", inputs);
-            if( !responce ){
-                alert("error while signin");
-            }
+            const response = await axios.post("http://localhost:3000/api/user/Auth/signin", inputs);
+            const token =  response.data;
+            console.log(response.data);
+            localStorage.setItem("token",token);
             navigate.push("/");
         }catch(e){
             alert( " error while signin  ");

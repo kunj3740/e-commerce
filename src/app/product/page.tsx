@@ -1,4 +1,4 @@
-import ProductPage from "@/components/ProductPage";
+import ProductPage from "@/components/ProductFinalCard";
 
 export const page = () => {
   return (
