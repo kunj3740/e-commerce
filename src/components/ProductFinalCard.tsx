@@ -10,18 +10,14 @@ import axios from "axios";
 // import { GB_CURRENCY } from "../utils/constants";
 // import { callAPI } from "../utils/CallApi";
 // import { addToCart } from "../redux/cartSlice";
-interface categorytype{
-    id: string;
-    name:string;
 
-}
 interface Product {
     product_name: string;
     product_description: string;
     price: number;
     image: string;
     id: string;
-    category: categorytype;
+    category: string;
     quantity: number;
   }
 
@@ -32,7 +28,11 @@ export const ProductFinalCard = () => {
     useEffect(() => {
         const ProductData = async () => {
             try{
-                const response = await axios.post(`/api/user/product/getProduct/[productId]`,params.productId)
+                console.log(params.productId);
+                const response = await axios.post(`/api/user/product/getProduct/[productId]`,
+                {
+                    "productId" : params.productId
+                })
                  setProduct(response.data);
                  setloading(false);
                  console.log(response.data);    
@@ -62,7 +62,7 @@ export const ProductFinalCard = () => {
                         {/* Middle */}
                         <div className="col-span-6 p-4 rounded bg-white divide-y divide-gray-400">
                         <div className="mb-3">
-                            <ProductDetails product_name={product.product_name} product_category={product.category.name}/>
+                            <ProductDetails product_name={product.product_name} product_category={""}/>
                         </div>
                         <div className="text-base xl:text-lg mt-3">
                             {product.product_description}

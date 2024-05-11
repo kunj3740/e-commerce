@@ -6,9 +6,6 @@ export async function POST(
     try{
         const body = await req.json();
         const product = await prisma.product.findFirst({
-            include:{
-                Category:true,
-            },
             where:{
                 id : body.productId
             }
