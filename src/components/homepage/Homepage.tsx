@@ -8,6 +8,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CategorywiseProducts from "./CategorywiseProducts";
 import { number } from "zod";
+import CardContainer from "./MoveAbleCard";
 
 interface Product {
   id: string;
@@ -41,7 +42,12 @@ const HomePage = () => {
   return (
     <div className="bg-slate-100 ">
       <HomePageLamp children="Ship Shop Shou"/>
-
+      {/* <div className="flex">
+      <CardContainer/>
+      <CardContainer/>
+      <CardContainer/>
+      <CardContainer/>
+      </div> */}
       <div>
       {data &&
         data.map((category: { id: string; name: string; products : Product[] }) => {
@@ -51,6 +57,7 @@ const HomePage = () => {
         })
       }
     </div>
+
     </div>
   );
 };
