@@ -8,11 +8,12 @@ import ProductDetails from '@/components/productFinalLook/ProductDetails';
 import { Product } from '@/components/Search';
 import Appbar from '@/components/Appbar';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 const ProductSuggestion = () => {
     const searchParams = useSearchParams()
     const router = useRouter();
     const searchTerm = searchParams.get('searchTerm')
-
+    const [ loading , setLoading ] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
     const fetchData = async () => {
         try {
@@ -21,7 +22,7 @@ const ProductSuggestion = () => {
                 product.product_name.toLowerCase().includes(searchTerm?.toLowerCase()||"")
               );
               setProducts(results);
-            
+              setLoading(false);
         } catch (error) {
             console.error('Error fetching product data:', error);
         }
@@ -31,10 +32,7 @@ const ProductSuggestion = () => {
         fetchData();
     }, [searchTerm]);
 
-    useEffect(()=>{
-        console.log("hello");
-        console.log(searchTerm);
-    },[])
+    
 
     return (
        <div className='bg-slate-200'>
@@ -44,7 +42,7 @@ const ProductSuggestion = () => {
           products.map((product, key) => {
             return (
               <Link key={key} href={`/product/${product.id}`}>
-                <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2">
+                <div className="h-[250px] grid grid-cols-12  mt-[2px]  ">
                   <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all">
                     <img
                       className="m-auto max-h-[200px] hover:scale-110 transition-all"
@@ -52,7 +50,7 @@ const ProductSuggestion = () => {
                       alt="Search result product"
                     />
                   </div>
-                  <div className="col-span-9 bg-white border border-white hover:bg-gray-100 ">
+                  <div className="col-span-9 bg-white border border-white hover:bg-gray-50 ">
                     <div className="font-medium text-black mt-4">
                     <div className="mb-1">
                       <div className="text-xl xl:text-2xl mb-1 font-semibold text-slate-800">
@@ -67,22 +65,44 @@ const ProductSuggestion = () => {
                       </div>
                     </div>
             
-                      <button className="bg-slate-800 w-[15%] h-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                      <button className="bg-slate-800 w-[15%] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
                           View More
                       </button>
                 
                   </div>
                 </div>
-                <div className='bg-slate-200 h-[2px]'>
+                <div className='bg-slate-200 h-[20px]'>
 
                 </div>
               </Link>
             );
           })}
-          <div className='h-[30px] bg-slate-200'>
-
-          </div>
       </div>
+      {
+        loading && 
+        <div className='h-[550px]'>
+          <div className='flex justify-center'>
+            <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
+                  <Skeleton className='col-span-3 mr-5 h-[250px]'>
+                    <Skeleton className=''/>
+                  </Skeleton>
+                  <Skeleton className='col-span-9  h-[250px]'>
+                    <Skeleton/>
+                  </Skeleton>
+            </div>
+          </div>
+          <div className='flex justify-center mt-2'>
+            <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
+                  <Skeleton className='col-span-3 mr-5 h-[250px]'>
+                    <Skeleton className=''/>
+                  </Skeleton>
+                  <Skeleton className='col-span-9  h-[250px]'>
+                    <Skeleton/>
+                  </Skeleton>
+            </div>
+          </div>
+        </div>
+      }
     </div>
     );
 };
