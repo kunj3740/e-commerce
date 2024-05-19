@@ -12,14 +12,7 @@ const ProductDetails = ( {product_name , product_category , }) => {
       <div className="text-xl xl:text-2xl font-medium mb-1">
         {product_name}
       </div>
-      { 
-        <div className="text-sm xl:text-base mb-1">
-          <ProductRatings
-            avgRating={3}
-            ratings={4}
-          />
-        </div>
-      }
+     
       <div className="text-xs xl:text-sm font-bold mb-1">
         {product_category}
       </div>

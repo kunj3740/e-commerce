@@ -48,6 +48,7 @@ const HomePage = () => {
       <CardContainer/>
       <CardContainer/>
       </div> */}
+    
       <div>
       {data &&
         data.map((category: { id: string; name: string; products : Product[] }) => {

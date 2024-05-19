@@ -3,32 +3,49 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline"
 import axios from "axios";
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from "react";
-
-interface Product {
+import { string } from "zod";
+export interface Product {
     id: string;
+    image: string;
     product_name: string;
-    product_description ?: string;
-    price: number; 
-    stock : number;
-    image : string;
-    createdAt ?: Date         
-    updatedAt ?: Date    
-    category: String;              
+    price: number;
+    Category: Category;
+  }
+  interface Category {
+    id: string;
+    name: string;
+    createdAt: Date;
+    updatedAt: Date;
+    products: Product[];
   }
   
 const Search = () => {
     const [suggestions , setSuggestions ] = useState<string[]>([]);
     const [ searchTerm , setSearchTerm ] = useState<string>();
     const navigate = useRouter();
-    useEffect(() => {
-        const AllProduct = async () => {
-            const response = await axios.post<Product[]>(`api/user/product/getProduct`);
-            const names = response.data.map( products => products.product_name);
-            setSuggestions(names);
-            console.log("Names:",names);
+    const handleSearch = (e) => {
+        e.preventDefault();
+        if( searchTerm ){
+            const params = new URLSearchParams({ searchTerm: searchTerm });
+            navigate.push(`/product?${params.toString()}`);
         }
-        AllProduct();
-    },[]);
+        else{
+            alert("please enter valid Search !");
+        }
+    }
+    useEffect(() => {
+        const fetchData = async () => {
+          try {
+            const response = await axios.get<Product[]>('/api/user/product/getProduct');
+            const names = response.data.map(product => product.product_name);
+            setSuggestions(names);
+            console.log('Product Names:', names);
+          } catch (error) {
+            console.error('Error fetching product data:', error);
+          }
+        };
+        fetchData();
+      }, []);
 
   return(
         <div className="w-[900px]">
@@ -54,9 +71,7 @@ const Search = () => {
                         setSearchTerm(e.target.value);
                     }} value={searchTerm}
                     className="block h-[40px] p-2.5 w-full z-20 text-md font-semibold text-gray-950 bg-slate-100 rounded-e-lg border-s-gray-50 border-s-2 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-s-gray-700  dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:border-blue-500" placeholder="Search What you Want.." required />
-                    <button type="submit" onClick={() => {
-                        navigate.push(`product`);
-                    }} className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white">
+                    <button type="submit" onClick={handleSearch} className="absolute top-0 end-0 p-2.5 text-sm font-medium h-full text-white">
                         <MagnifyingGlassIcon className="h-[27px] m-auto stroke-slate-900" />
                     </button>
                     {

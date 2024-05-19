@@ -1,12 +1,12 @@
 "use client"
-import Appbar from "./Appbar";
+import Appbar from "../Appbar";
 import Link from "next/link";
 import ProductDetails from "./ProductDetails";
-import { Button } from "./ui/button";
+import { Button } from "../ui/button";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Skeleton } from "./ui/skeleton";
+import { Skeleton } from "../ui/skeleton";
 
 // import { GB_CURRENCY } from "../utils/constants";
 // import { callAPI } from "../utils/CallApi";
@@ -112,7 +112,7 @@ export const ProductFinalCard = () => {
                     <div className="grid grid-cols-10 gap-2 border-2">
                         {/* Left */}
                       
-                            <Skeleton className="col-span-2 w-[200px] p-8 rounded  m-auto h-[400px]"/>
+                            <Skeleton className="col-span-2 w-[250px] p-4 rounded  m-auto h-[400px]"/>
                         
                       
                              <Skeleton className="col-span-6 p-4 h-[400px] rounded  divide-y "/>
