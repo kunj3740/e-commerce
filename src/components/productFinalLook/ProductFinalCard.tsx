@@ -7,7 +7,7 @@ import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { Skeleton } from "../ui/skeleton";
-
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 // import { GB_CURRENCY } from "../utils/constants";
 // import { callAPI } from "../utils/CallApi";
 // import { addToCart } from "../redux/cartSlice";
@@ -96,7 +96,9 @@ export const ProductFinalCard = () => {
                                     Buy Now
                                 </button>
                                 <button className="bg-yellow-500 w-[50%] h-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
-                                    Add to Cart
+                                    <div className="flex ml-4">
+                                        Add <ShoppingCartIcon className="ml-2 h-6 "/>
+                                    </div>
                                 </button>
                             </Link>
                             </div>

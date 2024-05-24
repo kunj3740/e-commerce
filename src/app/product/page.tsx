@@ -5,10 +5,11 @@ import { useEffect, useState } from "react"; // Corrected useState import
 import axios from "axios";
 import Link from "next/link"; // Corrected Link import
 import ProductDetails from '@/components/productFinalLook/ProductDetails';
-import { Product } from '@/components/Search';
-import Appbar from '@/components/Appbar';
+
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Product } from '@/components/Search';
+import Appbar from '@/components/Appbar';
 const ProductSuggestion = () => {
     const searchParams = useSearchParams()
     const router = useRouter();

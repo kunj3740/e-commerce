@@ -1,8 +1,9 @@
 "use client"
 
 import  Link  from "next/link";
-import Search from "./Search";
+
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import Search from "./Search";
 
 const Appbar = () => {
   
