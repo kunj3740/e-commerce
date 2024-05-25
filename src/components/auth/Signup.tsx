@@ -14,12 +14,15 @@ export const Signup = () =>{
         password : ""
     })
     async function sendRequest(){
-        console.log(inputs);
+        
         try{
-            const response = await axios.post("http://localhost:3000/api/user/Auth/signup", inputs );
+            console.log(inputs)
+            const response = await axios.post("api/user/Auth/signup",inputs);
+            console.log(response);
             navigate.push("/");
         }
         catch(e){
+            console.log(e);
             alert("error while signup");
         }
     }

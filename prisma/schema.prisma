@@ -55,7 +55,9 @@ model Product{
   updatedAt            DateTime             @updatedAt
   category             String 
   Category             Category             @relation(fields: [category], references: [id])
+  quantity             Int?                  @default(0)
 }
+
 
 model Category{
   id          String     @id @default(uuid())
@@ -85,7 +87,7 @@ model resetToken {
 model Cart {
   id        String   @id @default(uuid())
   createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  updatedAt DateTime? @updatedAt
   products  Json
   userId    String   @unique
   user      User     @relation(fields: [userId], references: [id])
