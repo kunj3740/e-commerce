@@ -6,27 +6,30 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProductDetails from "../productFinalLook/ProductDetails";
+import { isAuthenticated } from "../productFinalLook/ProductFinalCard";
 
 
-export const CheckOutPage = async () => {
+export const CheckOutPage =  () => {
 
-    const userData = useSelector((state : InitialState) => state.userData);
-    const [CartProduct , setCartProduct] = useState< Product | null >(null);
+    // const userData = useSelector((state : InitialState) => state.userData);
+    // console.log(userData);
+    
+    const [CartProduct , setCartProduct] = useState< Product[] | null >(null);
     
     useEffect(() => {
         const fetchingCartData = async () => {
             try{
-                const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userData.id}`);
-                console.log(CartResponse);
+                const userDetails = await isAuthenticated();
+                const userId = userDetails?.data.user.userId;
+                const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
                 setCartProduct( CartResponse.data.products );
             }
             catch(e){
                 console.log(e);
-                
             }
         };
         fetchingCartData();
-    } ,[])
+    } ,[  ])
 
   return (
     <div>
