@@ -22,6 +22,7 @@ export const CheckOutPage =  () => {
                 const userDetails = await isAuthenticated();
                 const userId = userDetails?.data.user.userId;
                 const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
+                console.log(CartResponse.data.products );
                 setCartProduct( CartResponse.data.products );
             }
             catch(e){
@@ -35,14 +36,14 @@ export const CheckOutPage =  () => {
     <div>
         <div className="h-screen bg-amazonclone-background">
             <div className="min-w-[1000px] max-w-[1500px] m-auto pt-8">
-                <div className="grid grid-cols-8 gap-10">
+                <div className="grid grid-cols-8 gap-10 ml-">
                 {/* Products */}
-                <div className="col-span-6 bg-white">
-                    <div className="text-2xl xl:text-3xl m-4">Shopping Cart</div>
+                <div className="col-span-6 bg-white ">
+                    <div className="text-2xl xl:text-3xl m-4 ">Shopping Cart</div>
                     {CartProduct && CartProduct.map((product : Product) => {
                     return (
-                        <div>
-                        <div className="grid grid-cols-12 divide-y divide-gray-400 mr-4">
+                        <div className="">
+                        <div className="grid grid-cols-12">
                             <div className="col-span-10 grid grid-cols-8 divide-y divide-gray-400">
                             <div className="col-span-2">
                                 <Link href={`/`}>
@@ -53,36 +54,52 @@ export const CheckOutPage =  () => {
                                     />
                                 </Link>
                             </div>
-                            <div className="col-span-6">
-                                <div className="font-medium text-black mt-2">
-                                <Link href={`/`}>
-                                     
-                                </Link>
-                                </div>
+                            <div className="col-span-6 flex">
+                                
                                 <div>
-                                <button
-                                    className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2 mb-1 cursor-pointer"
+                                    <div>
+                                        <button
+                                            className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2 mb-1 cursor-pointer"
+                                            
+                                        >
+                                            Delete
+                                        </button>
+                                    </div>
+                                    <div className="grid grid-cols-3 w-20 text-center">
+                                        <div
+                                            className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
+                                        
+                                        >
+                                            -
+                                        </div>
+                                        <div className="text-lg xl:text-xl bg-gray-200">
+                                            {product.quantity}
+                                        </div>
+                                        <div
+                                            className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
+                                        
+                                        >
+                                            +
+                                        </div>
+                                    </div>
+                                </div>
+
+                                
+                                <div className="font-medium text-black ml-10 mt-2">
+                                    <div className="">
+                                        <div className="text-xl xl:text-2xl  font-semibold text-slate-800">
+                                            {product.product_name}
+                                        </div>
+                                        <div className="max-h-[100px] mt-3 text-md overflow-hidden">
+                                            {product.product_description}
+                                        </div>
+                                        <div>
+                                            <button className="bg-slate-800 w-[25%] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                                                View More
+                                            </button>
+                                        </div>
+                                    </div>
                                     
-                                >
-                                    Delete
-                                </button>
-                                </div>
-                                <div className="grid grid-cols-3 w-20 text-center">
-                                <div
-                                    className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
-                                  
-                                >
-                                    -
-                                </div>
-                                <div className="text-lg xl:text-xl bg-gray-200">
-                                    {product.quantity}
-                                </div>
-                                <div
-                                    className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
-                                 
-                                >
-                                    +
-                                </div>
                                 </div>
                             </div>
                             </div>

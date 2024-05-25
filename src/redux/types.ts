@@ -11,10 +11,11 @@ export type InitialState = {
   };
   
   export type Product = {
-    name: string;
+    product_name: string;
     price: number;
     quantity: number;
     image:string;
+    product_description?:string
   };
   
   export type Action = {
