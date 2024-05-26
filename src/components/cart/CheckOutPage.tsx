@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ProductDetails from "../productFinalLook/ProductDetails";
 import { isAuthenticated } from "../productFinalLook/ProductFinalCard";
+import { Skeleton } from "../ui/skeleton";
 
 
 export const CheckOutPage =  () => {
@@ -15,7 +16,7 @@ export const CheckOutPage =  () => {
     // console.log(userData);
     
     const [CartProduct , setCartProduct] = useState< Product[] | null >(null);
-    
+    const [loading , setLoading ] = useState<boolean>(true);
     useEffect(() => {
         const fetchingCartData = async () => {
             try{
@@ -24,6 +25,7 @@ export const CheckOutPage =  () => {
                 const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
                 console.log(CartResponse.data.products );
                 setCartProduct( CartResponse.data.products );
+                setLoading(false);
             }
             catch(e){
                 console.log(e);
@@ -33,38 +35,65 @@ export const CheckOutPage =  () => {
     } ,[  ])
 
   return (
-    <div>
-        <div className="h-screen bg-amazonclone-background">
-            <div className="min-w-[1000px] max-w-[1500px] m-auto pt-8">
-                <div className="grid grid-cols-8 gap-10 ml-">
+    <div className="">
+        { !loading && <div className=" bg-amazonclone-background  bg-slate-100 ">
+            <div className="min-w-[1000px] max-w-[1500px] ml-[20%]  ">
+                <div className="grid grid-cols-8 gap-10 ">
                 {/* Products */}
                 <div className="col-span-6 bg-white ">
-                    <div className="text-2xl xl:text-3xl m-4 ">Shopping Cart</div>
+                    <div className="text-2xl xl:text-3xl font-sans font-semibold m-4 flex justify-center">
+                        Shopping Cart
+                    </div>
                     {CartProduct && CartProduct.map((product : Product) => {
                     return (
-                        <div className="">
+                        <div className="mt-10">
                         <div className="grid grid-cols-12">
                             <div className="col-span-10 grid grid-cols-8 divide-y divide-gray-400">
-                            <div className="col-span-2">
+                            <div className="col-span-4 xl:col-span-2">
                                 <Link href={`/`}>
                                     <img
-                                        className="p-4 m-auto"
+                                        className="p-4 m-auto ml-3 hover:scale-110 transition-all"
                                         src={product.image}
                                         alt="Checkout product"
                                     />
                                 </Link>
                             </div>
-                            <div className="col-span-6 flex">
+                            <div className="col-span-7 xl:col-span-6 flex">
+                                <div className="font-medium text-black ml-10 mt-2">
+                                    <div className="">
+                                        <div className="text-xl xl:text-2xl  font-semibold text-blue-900">
+                                            {product.product_name}
+                                        </div>
+                                        <div className="max-h-[100px] mt-3 text-md overflow-hidden">
+                                            {product.product_description}
+                                        </div>
+                                        <div>
+                                            <button className="bg-slate-700 w-[150px] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                                                View More
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                                 
-                                <div>
+
+                                
+                                
+                            </div>
+                            </div>
+                            <div className="col-span-3 xl:col-span-2">
                                     <div>
                                         <button
-                                            className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2 mb-1 cursor-pointer"
+                                            className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2  cursor-pointer"
                                             
                                         >
                                             Delete
                                         </button>
                                     </div>
+                                <div className="text-lg xl:text-xl mt-1 mr-4 text-red-800 font-semibold">
+                                    Rs.{product.price}
+                                </div>
+                                <div className="mt-3">
+                                    
                                     <div className="grid grid-cols-3 w-20 text-center">
                                         <div
                                             className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
@@ -83,30 +112,6 @@ export const CheckOutPage =  () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                
-                                <div className="font-medium text-black ml-10 mt-2">
-                                    <div className="">
-                                        <div className="text-xl xl:text-2xl  font-semibold text-slate-800">
-                                            {product.product_name}
-                                        </div>
-                                        <div className="max-h-[100px] mt-3 text-md overflow-hidden">
-                                            {product.product_description}
-                                        </div>
-                                        <div>
-                                            <button className="bg-slate-800 w-[25%] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
-                                                View More
-                                            </button>
-                                        </div>
-                                    </div>
-                                    
-                                </div>
-                            </div>
-                            </div>
-                            <div className="col-span-2">
-                            <div className="text-lg xl:text-xl mt-2 mr-4 font-semibold">
-                                Rs.{product.price}
-                            </div>
                             </div>
                         </div>
                         </div>
@@ -136,6 +141,33 @@ export const CheckOutPage =  () => {
                 </div>
             </div>
             </div>
+            }{
+                
+                    loading && 
+                    <div className='h-[550px]'>
+                      <div className='flex justify-center'>
+                        <div className="h-[250px] grid grid-cols-12  mt-1 mb-2 w-[80%]">
+                              <Skeleton className='col-span-3  h-[250px]'>
+                                <Skeleton className=''/>
+                              </Skeleton>
+                              <Skeleton className='col-span-9  h-[250px]'>
+                                <Skeleton/>
+                              </Skeleton>
+                        </div>
+                      </div>
+                      <div className='flex justify-center mt-1'>
+                        <div className="h-[250px] grid grid-cols-12  mt-1 mb-2 w-[80%]">
+                              <Skeleton className='col-span-3  h-[250px]'>
+                                <Skeleton className=''/>
+                              </Skeleton>
+                              <Skeleton className='col-span-9  h-[250px]'>
+                                <Skeleton/>
+                              </Skeleton>
+                        </div>
+                      </div>
+                    </div>
+                  
+            }
     </div>
   )
 }

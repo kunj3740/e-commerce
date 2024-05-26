@@ -9,7 +9,9 @@ export const page = () => {
  
   return (
     <div>
-      <Appbar/>
+        <div>
+          <Appbar/>
+        </div>
         <div>
           <CheckOutPage/>
         </div>

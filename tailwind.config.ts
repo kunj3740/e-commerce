@@ -16,6 +16,9 @@ const config : Config = {
 	],
   prefix: "",
   theme: {
+    fontFamily : {
+      sans : ["Inter var", ...defaultTheme.fontFamily.sans],
+    },
     container: {
       center: true,
       padding: "2rem",
