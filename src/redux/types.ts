@@ -15,8 +15,6 @@ export type InitialState = {
     price: number;
     quantity: number;
     image:string;
-    product_description?:string
-    id:string,
   };
   
   export type Action = {
@@ -25,12 +23,13 @@ export type InitialState = {
   };
   
   export type CartProduct = {
-    productId: string;
+    id: string;
     quantity: number;
-    name: string;
+    product_name: string;
     price: number;
     category: string;
     image:string;
+    product_description?:string
   };
   
   export type Cart = {
