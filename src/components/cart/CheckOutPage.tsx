@@ -65,7 +65,7 @@ export const CheckOutPage =  () => {
                 if(product.id === id) {
                     return {...product,quantity : product.quantity + 1}
                 }else{
-                    return { product };
+                    return { ...product };
                 }
             })
             console.log(quantityUpdatedData);
@@ -80,28 +80,31 @@ export const CheckOutPage =  () => {
 
         }
     }
-    const decrementHandler = async ( id : string ) => {
+    const decrementHandler = async ( id : string , quantity : number ) => {
         try{
             console.log(id);
-            const userDetails = await isAuthenticated();
-            const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userDetails?.data.user.userId}`);
-            const quantityUpdatedData = CartResponse.data.products.map((product : CartProduct ) => {
-                if(product.id === id) {
-                    if( product.quantity === 1 ){
-                        deleteHandler(product.id);
-                    }
-                    return {...product, quantity : product.quantity - 1}
-                }else{
-                    return { product };
-                }
-            })
-            console.log(quantityUpdatedData);
-            let newCartVAlue = {
-                id : CartResponse.data.id,
-                products : quantityUpdatedData
+            if( quantity === 1 ){
+                deleteHandler(id);
             }
-            const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
-            setCartProduct(quantityUpdatedData);
+            else{
+                const userDetails = await isAuthenticated();
+                const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userDetails?.data.user.userId}`);
+                const quantityUpdatedData = CartResponse.data.products.map((product : CartProduct ) => {
+                    if(product.id === id) {
+                        return {...product, quantity : product.quantity - 1};
+                    }else{
+                        return { ...product };
+                    }
+                })
+                console.log(quantityUpdatedData);
+                let newCartVAlue = {
+                    id : CartResponse.data.id,
+                    products : quantityUpdatedData
+                }
+                const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+                setCartProduct(quantityUpdatedData);
+            }
+            
         }
         catch(e){
 
@@ -160,7 +163,7 @@ export const CheckOutPage =  () => {
                                         <button
                                             className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2  cursor-pointer"
                                             onClick={() => {
-                                                deleteHandler(product.id);
+                                                deleteHandler(product.id );
                                             }}
                                         >
                                             Delete
@@ -175,7 +178,7 @@ export const CheckOutPage =  () => {
                                         <button
                                             className="text-xl xl:text-2xl bg-gray-400 rounded cursor-pointer"
                                             onClick={ () => {
-                                                decrementHandler(product.id);
+                                                decrementHandler(product.id , product.quantity);
                                             }}
                                         >
                                             -
