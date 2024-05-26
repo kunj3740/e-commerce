@@ -9,7 +9,7 @@ export async function GET(req: Request) {
     return new NextResponse("Unauthorized User", { status: 401 });
   }
   try {
-    const data = verify(token.value, process.env.JWT_SECRET || "");
+    const data = verify(token.value, process.env.JWT_SECRET || "kunj");
     const response = new NextResponse(
       JSON.stringify({
         message: "Verified User",

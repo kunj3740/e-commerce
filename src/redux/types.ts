@@ -5,7 +5,7 @@ export type InitialState = {
   };
   
   export type User = {
-    username: string;
+    username ?: string;
     email: string;
     id: string;
   };
@@ -16,6 +16,7 @@ export type InitialState = {
     quantity: number;
     image:string;
     product_description?:string
+    id:string,
   };
   
   export type Action = {

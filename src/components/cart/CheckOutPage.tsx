@@ -17,13 +17,13 @@ export const CheckOutPage =  () => {
     
     const [CartProduct , setCartProduct] = useState< Product[] | null >(null);
     const [loading , setLoading ] = useState<boolean>(true);
+    let CartResponse;
     useEffect(() => {
         const fetchingCartData = async () => {
             try{
                 const userDetails = await isAuthenticated();
                 const userId = userDetails?.data.user.userId;
-                const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
-                console.log(CartResponse.data.products );
+                CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
                 setCartProduct( CartResponse.data.products );
                 setLoading(false);
             }
@@ -32,8 +32,23 @@ export const CheckOutPage =  () => {
             }
         };
         fetchingCartData();
-    } ,[  ])
+    } ,[])
+    const deleteHandler = async (id : string) => {
+        try{
+            console.log(CartResponse.data);
+            CartResponse.data.products = CartResponse.data.products.filter(product => {
+                return product.id !== id;
+            });
+            console.log(CartResponse.data)
+            const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,CartResponse);
+            setCartData(CartResponse.data.products);
+            console.log(CartResponse.data.products);
+        }
+        catch(e){
 
+        }
+    }
+ 
   return (
     <div className="">
         { !loading && <div className=" bg-amazonclone-background  bg-slate-100 ">
@@ -46,7 +61,7 @@ export const CheckOutPage =  () => {
                     </div>
                     {CartProduct && CartProduct.map((product : Product) => {
                     return (
-                        <div className="mt-10">
+                        <div className="mt-10" key={product.id}>
                         <div className="grid grid-cols-12">
                             <div className="col-span-10 grid grid-cols-8 divide-y divide-gray-400">
                             <div className="col-span-4 xl:col-span-2">
@@ -84,7 +99,9 @@ export const CheckOutPage =  () => {
                                     <div>
                                         <button
                                             className="text-sm xl:text-base font-semibold rounded text-blue-500 mt-2  cursor-pointer"
-                                            
+                                            onClick={() => {
+                                                deleteHandler(product.id);
+                                            }}
                                         >
                                             Delete
                                         </button>
