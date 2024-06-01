@@ -1,4 +1,4 @@
-{
+ {
   "compilerOptions": {
     "lib": ["dom", "dom.iterable", "esnext" , "es6"],
     "noImplicitAny": false,

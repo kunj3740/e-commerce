@@ -1,12 +1,112 @@
 "use client"
-
-import  Link  from "next/link";
-
-import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { isAuthenticated } from "./productFinalLook/ProductFinalCard";
+import axios from "axios";
+import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import Link from "next/link";
 import Search from "./Search";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { User } from "@/redux/types";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+
+
 
 const Appbar = () => {
-  
+  const [isUserExisted, setIsUserExisted] = useState(false);
+  const [userData, setUserData] = useState<User>();
+  const route = useRouter();
+  useEffect(() => {
+    const getUserData = async () => {
+      try {
+        const response = await isAuthenticated();
+        if (!response || response.status !== 200) {
+          return;
+        }
+        setIsUserExisted(true);
+        setUserData(response.data.user);
+      } catch (error) {
+        console.error('Error while fetching user', error);
+      }
+    };
+    getUserData();
+  }, []);
+  const logoutHandler = async () => {
+    try {
+      await axios.get("/api/user/Auth/signout");
+      window.location.href = "/";
+    } catch (error: any) {
+    
+    }
+  }
+  const renderUserButton = () => {
+    if (isUserExisted && userData) {
+      const userInitial = userData.username?.charAt(0).toUpperCase();
+      return (
+        <div className="flex items-center">
+          
+          <Link href={"/checkout"}>
+            <div className="flex mr-6">
+              <ShoppingCartIcon className="h-[48px]" />
+            </div>
+          </Link>
+            <DropdownMenu>
+              <DropdownMenuTrigger>
+                <Avatar className="cursor-pointer select-none bg-slate-500">
+                 
+                    <AvatarFallback>
+                      {userInitial}
+                    </AvatarFallback>
+                
+                </Avatar>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent className="absolute -right-2">
+                <DropdownMenuLabel>My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="" />
+                <DropdownMenuItem
+                  className="cursor-pointer text-white"
+                  onClick={() => {
+                    window.location.href = "/profile";
+                  }
+                  }
+                >
+                  Profile Info
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer text-white"
+                
+                >
+                  My Orders
+                </DropdownMenuItem>
+                <DropdownMenuItem
+                  className="cursor-pointer text-red-500"
+                  onClick={logoutHandler}
+                >
+                  Log Out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+         
+        </div>
+      );
+    } else {
+      return (
+        <Link href={"/signin"}>
+          <div className="pr-4 pl-4">
+            <div className="text-xs xl:text-xl font-bold">Login</div>
+          </div>
+        </Link>
+      );
+    }
+  };
+
   return (
     <header className="min-w-[1000px] h-[70px]">
       <div className="flex bg-slate-950 text-white h-[70px]">
@@ -29,16 +129,7 @@ const Appbar = () => {
         </div>
         {/* Right */}
         <div className="flex items-center m-4">   
-          <Link href={"/checkout"}>
-            <div className="flex pr-3 pl-3">
-              <ShoppingCartIcon className="h-[48px]" />
-            </div>
-          </Link>
-          <Link href={"/signin"}>
-            <div className="pr-4 pl-4 hover:bg-slate-800 rounded-md">
-                <div className="text-xs xl:text-xl font-bold">Login</div>
-            </div>
-          </Link> 
+          {renderUserButton()}
         </div>
       </div>
       

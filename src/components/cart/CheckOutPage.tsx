@@ -181,7 +181,7 @@ export const CheckOutPage =  () => {
                                         </button>
                                     </div>
                                 <div className="text-lg xl:text-xl mt-1 mr-4 text-red-700   font-bold hover:text-red-500 cursor-pointer">
-                                    Rs.{product.price}
+                                    Rs.{product.price*product.quantity}
                                 </div>
                                 <div className="mt-3">
                                     
@@ -212,12 +212,12 @@ export const CheckOutPage =  () => {
                         </div>
                     );
                     })}
-                    {/* <div className="text-lg xl:text-xl text-right mb-4 mr-4">
-                    Subtotal ({itemsNumber} items):{" "}
+                    <div className="text-lg xl:text-xl text-right mb-4 mr-4">
+                    Subtotal ({} items):{" "}
                     <span className="font-semibold">
-                        {GB_CURRENCY.format(subtotal)}
+                        
                     </span>
-                    </div> */}
+                    </div>
                 </div>
                 {/* Checkout */}
                 {/* <div className="col-span-2 bg-white rounded h-[250px] p-7">
