@@ -86,7 +86,19 @@ export const PaymentPage = () => {
 
 
   const PaymentOnClickHandler = async () => {
-    
+    try{
+      product.quantity = ProductQuantity;
+      product.price = product.price*ProductQuantity;
+      const response = await axios.post(`/api/user/order/addOrder`,{
+        userId:userInfo.id,
+        products:product,
+      })
+      toast.success("product orderd successfully!!");
+      route.push("/order")
+    }
+    catch(e){
+      toast.error("product order failed!!");
+    }
   }
 
   if (loading) {
