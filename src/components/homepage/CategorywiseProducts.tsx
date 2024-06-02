@@ -30,7 +30,7 @@ const CategorywiseProducts = ({
     }
   return (
     <div>
-       <div className="mt-16">
+       <div className="mt-1">
          <div className="text-3xl font-semibold ml-16 flex">
            <svg className="h-10 w-10 shrink-0 fill-gray-600 mr-1 p-1 pb-2" viewBox="0 0 256 256">
                <path
@@ -39,8 +39,8 @@ const CategorywiseProducts = ({
             </svg>
             {title}
           </div>
-        <div>
-        <div className="h-[2px] bg-slate-200 "></div>
+        <div className=''>
+        
                 <div className="md:ml-4">
                     <div className="grid grid-cols-2 md:grid-cols-4">
                       

@@ -3,6 +3,7 @@ import { ChangeEvent, useState } from "react";
 import {  useRouter } from 'next/navigation'
 import  axios  from "axios";
 import Link from "next/link";
+import toast from "react-hot-toast";
 
 
 export const Signin = () =>{
@@ -15,10 +16,10 @@ export const Signin = () =>{
         try{
             const response = await axios.post("api/user/Auth/signin", inputs);
             const token =  response.data;
-            //console.log(response.data);
+            toast.success("Login SuccessFully");
             navigate.push("/");
         }catch(e){
-            alert( " error while signin  ");
+            toast.error("Login Failed");
             console.log(e);
         }
     }

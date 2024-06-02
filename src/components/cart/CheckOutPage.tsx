@@ -9,6 +9,7 @@ import ProductDetails from "../productFinalLook/ProductDetails";
 import { isAuthenticated } from "../productFinalLook/ProductFinalCard";
 import { Skeleton } from "../ui/skeleton";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import { useRouter } from "next/navigation";
 
 export const CheckOutPage =  () => {
 
@@ -17,12 +18,14 @@ export const CheckOutPage =  () => {
     const [CartProduct , setCartProduct] = useState< CartProduct[] | null>(null);
     const [loading , setLoading ] = useState<boolean>(true);
     const cartData = useSelector((state : InitialState ) => state.cart)
+    const route = useRouter();
+
     useEffect(() => {
         const fetchingCartData = async () => {
             try{
-                // const userDetails = await isAuthenticated();
-                // const userId = userDetails?.data.user.userId;
-                const userId = userData.id;
+                const userDetails = await isAuthenticated();
+                const userId = userDetails?.data.user.userId;
+                // const userId = userData.id;
                 const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
                 dispatch(setCartData(CartResponse.data));
                 setCartProduct( CartResponse.data.products );
@@ -151,7 +154,9 @@ export const CheckOutPage =  () => {
                                             {product.product_description}
                                         </div>
                                         <div>
-                                            <button className="bg-slate-700 w-[150px] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                                            <button onClick={() => {
+                                                route.push(`/product/${product.id}`)
+                                            }} className="bg-slate-700 w-[150px] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
                                                 View More
                                             </button>
                                         </div>

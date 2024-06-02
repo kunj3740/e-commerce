@@ -130,7 +130,7 @@ export const ProductFinalCard = () => {
     
         return (
       <div className="bg-slate-200">
-        <Appbar/>
+        
         <div>
             {
               !loading && product && (<div className="bg-slate-200 mt-7 ">
@@ -138,7 +138,7 @@ export const ProductFinalCard = () => {
                     <div className="grid grid-cols-10 gap-2 border-2">
                         {/* Left */}
                         <div className=" p-8 col-span-8 rounded bg-white  md:col-span-2">
-                            <img className="max-h-[350px]" src={product.image} alt="Main product" />
+                            <img className="max-h-[350px] hover:scale-110 transition-all" src={product.image} alt="Main product" />
                         </div>
                         {/* Middle */}
                         <div className="col-span-4 p-4 pl-8 rounded bg-white divide-y divide-gray-400 md:col-span-6">
@@ -151,7 +151,7 @@ export const ProductFinalCard = () => {
                         </div>
                         {/* Right */}
                         <div className="col-span-8 p-4 pl-8 rounded bg-white md:col-span-2">
-                            <div className="text-xl xl:text-2xl text-red-700  font-semibold">
+                            <div className="text-xl xl:text-2xl text-red-700 hover:text-red-500  font-semibold">
                                 Rs.{product.price}
                             </div>
                             <div className="text-sm xl:text-base text-blue-500 font-semibold mt-3">
@@ -163,18 +163,10 @@ export const ProductFinalCard = () => {
                             <div className="text-base xl:text-lg text-green-700 font-semibold mt-1">
                                 { product.stock || 0 > 0 ? "In Stock" : "Out of Stock"}
                             </div>
-                            <div className="text-base xl:text-lg mt-1">
-                                Quantity:
-                                <select>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                </select>
-                            </div>
                             <div className="flex flex-col" >
-                                <button className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
+                                <Link href={`/payment/${product.id}`} className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
                                     Buy Now
-                                </button>
+                                </Link>
                                 <button onClick={handleAddToCart} className="bg-yellow-500 w-[50%] h-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
                                     <div className="flex ml-4">
                                         Add <ShoppingCartIcon className="ml-2 h-6 "/>

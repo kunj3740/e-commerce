@@ -4,6 +4,7 @@ import {  useRouter } from 'next/navigation'
 import  axios  from "axios";
 import Link from "next/link";
 import { Stringifier } from "postcss";
+import toast from "react-hot-toast";
 
 
 export const Signup = () =>{
@@ -18,12 +19,12 @@ export const Signup = () =>{
         try{
             console.log(inputs)
             const response = await axios.post("api/user/Auth/signup",inputs);
-            console.log(response);
+            toast.success("Account Created SuccessFully");
             navigate.push("/");
         }
         catch(e){
             console.log(e);
-            alert("error while signup");
+            toast.error("Signup Failed");
         }
     }
     return <div className="h-screen flex justify-center flex-col">

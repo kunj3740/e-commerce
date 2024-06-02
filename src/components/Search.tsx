@@ -27,6 +27,7 @@ const Search = () => {
         e.preventDefault();
         if( searchTerm ){
             const params = new URLSearchParams({ searchTerm: searchTerm });
+            setSuggestions([]);
             navigate.push(`/product?${params.toString()}`);
         }
         else{

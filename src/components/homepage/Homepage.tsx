@@ -50,6 +50,7 @@ const HomePage = () => {
       </div> */}
     
       <div>
+      <div className="h-[100px]"></div>
       {data &&
         data.map((category: { id: string; name: string; products : Product[] }) => {
              return(

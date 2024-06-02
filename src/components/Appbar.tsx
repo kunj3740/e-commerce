@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import toast from "react-hot-toast";
 
 
 
@@ -41,6 +42,7 @@ const Appbar = () => {
   const logoutHandler = async () => {
     try {
       await axios.get("/api/user/Auth/signout");
+      toast.success("Log Out Successfully");
       window.location.href = "/";
     } catch (error: any) {
     
@@ -68,25 +70,25 @@ const Appbar = () => {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="absolute -right-2 bg-white">
-                <DropdownMenuLabel className="text-black bg-white">My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="bg-white" />
+                <DropdownMenuLabel className="text-black bg-white">{userData.email}</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-black" />
                 <DropdownMenuItem
-                  className="cursor-pointer text-black"
+                  className="cursor-pointer text-blue-900 font-semibold"
                   onClick={() => {
                     route.push("/profile");
                   }
                   }
                 >
-                  Profile Info
+                  Personal Info
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="cursor-pointer text-black"
-                
+                  className="cursor-pointer text-blue-900 font-semibold"
+                  
                 >
                   My Orders
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="cursor-pointer text-red-500"
+                  className="cursor-pointer text-red-500  font-semibold"
                   onClick={logoutHandler}
                 >
                   Log Out

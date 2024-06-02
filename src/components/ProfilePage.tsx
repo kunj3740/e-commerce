@@ -108,9 +108,6 @@ const ProfilePage = () => {
 
   return (
     <div>
-      <div>
-        <Appbar/>
-      </div>
       <div> 
           <main className="flex w-full justify-center items-center">
           {!loading && (
@@ -122,7 +119,7 @@ const ProfilePage = () => {
               <div className="mt-8 h-[1px] bg-slate-900"/>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(updateAddressHandler)}>
-                  <p className="font  mt-3 mb-3 text-blue-700 text-base md:text-lg flex justify-center">
+                  <p className="font-medium  mt-3 mb-3 text-blue-700 text-base md:text-lg flex justify-center">
                     Personal Details
                   </p>
                   <Separator className="mb-4 mt-2" />
@@ -250,9 +247,13 @@ const ProfilePage = () => {
             </section>
           )}
           {loading && (
-            <Skeleton className="h-full w-full flex justify-center items-center">
-               
-            </Skeleton>
+            <div>
+              <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
+              <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
+              <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
+              <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
+              <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
+            </div>
           )}
         </main>
       </div>

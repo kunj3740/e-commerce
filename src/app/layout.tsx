@@ -2,7 +2,11 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/redux/provider";
-
+import { Toaster } from "react-hot-toast";
+import Appbar from "@/components/Appbar";
+import ClientLayout from "@/components/ClientLayout";
+import { Montserrat } from "next/font/google";
+const montserrat = Montserrat({ subsets: ["latin"] });
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -18,10 +22,8 @@ export default function RootLayout({
   return (
     
       <html lang="en">
-        <body className={inter.className}>
-        <Providers>
-          {children}
-        </Providers>
+        <body className={montserrat.className}>
+          <ClientLayout>{children}</ClientLayout>  
         </body>
       </html>
     

@@ -1,27 +1,31 @@
-' use client'
-import prisma from "@/lib/prismadb";
-import { useParams } from "next/navigation";
-import { NextResponse } from "next/server";
-import { date } from "zod";
+import prismadb from "@/lib/prismadb";
+import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(
-    req : Request , 
-    context : { params : { orderid : string }}
+  req: NextRequest,
+  context: { params: { orderid: string } }
 ) {
-    try{
-        const data = await prisma.order.findFirst({
-            where:{
-                id : context.params.orderid,
-            },
-        })
-        if( data ){
-            return NextResponse.json(data);
-        }else{
-            return new NextResponse("Order Not Found" , { status : 200 });
-        }
+  try {
+    const orderId = req.nextUrl.searchParams.get("orderId");
+    if (orderId === null) {
+      return new NextResponse("orderId parameter is missing", { status: 400 });
     }
-    catch(e){
-        console.log(e);
-        return new NextResponse("Internal Error :" , { status : 500 });
+
+    const order = await prismadb.order.findFirst({
+      where: {
+        id:orderId ,
+      },
+    });
+    console.log(order);
+    if (order) {
+      return NextResponse.json({
+        order
+      });
+    } else {
+      return new NextResponse("Order not found", { status: 200 });
     }
+  } catch (error) {
+    console.log(error);
+    return new NextResponse("Internal Error", { status: 500 });
+  }
 }
