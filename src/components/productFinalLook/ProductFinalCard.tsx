@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { setCartData, setOrderData, setUserData } from "@/redux/actions";
 import { Cart, CartProduct, InitialState, Order } from "@/redux/types"
 import { stat } from "fs";
+import { useRouter } from "next/navigation";
 // import { GB_CURRENCY } from "../utils/constants";
 // import { callAPI } from "../utils/CallApi";
 // import { addToCart } from "../redux/cartSlice";
@@ -47,7 +48,7 @@ export const ProductFinalCard = () => {
     const userData = useSelector((state : InitialState) => state.userData)
     const [product , setProduct] = useState< Product | null >(null);
     const [loading , setloading] = useState(true);
-
+    const router = useRouter();
     useEffect(() => {
         const ProductData = async () => {
             try{
@@ -74,8 +75,12 @@ export const ProductFinalCard = () => {
             alert("It seems like you are not registered or signed in.");
             return;
         }
+        dispatch(setUserData({
+          username : response.data.user.username,
+          email: response.data.user.email,
+          id: response.data.user.id,
+        }))
         const ruserData = response.data.user;
-         
         console.log(userData)
         try {
           const cartResponse = await axios.post(`/api/user/cart/get/[userId]/?userId=${ruserData.userId}`);
@@ -101,7 +106,7 @@ export const ProductFinalCard = () => {
             products: [sendData],
             id: data.id,
           }));
-          window.location.href = "/checkout";
+          router.push("/checkout");
         } catch (error) {
           console.log(error);
           alert("Something went wrong while creating the cart");
@@ -117,7 +122,7 @@ export const ProductFinalCard = () => {
           };
           await axios.post(`/api/user/cart/update/[cartId]/?cartId=${cartId}`, updatedCartData);
           dispatch(setCartData(updatedCartData));
-          window.location.href = "/checkout";
+          router.push("/checkout");
         } catch (error) {
           console.log("Error updating cart!");
         }

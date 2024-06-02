@@ -57,7 +57,7 @@ const Appbar = () => {
               <ShoppingCartIcon className="h-[48px]" />
             </div>
           </Link>
-            <DropdownMenu>
+            <DropdownMenu >
               <DropdownMenuTrigger>
                 <Avatar className="cursor-pointer select-none bg-slate-500">
                  
@@ -67,20 +67,20 @@ const Appbar = () => {
                 
                 </Avatar>
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="absolute -right-2">
-                <DropdownMenuLabel>My Account</DropdownMenuLabel>
-                <DropdownMenuSeparator className="" />
+              <DropdownMenuContent className="absolute -right-2 bg-white">
+                <DropdownMenuLabel className="text-black bg-white">My Account</DropdownMenuLabel>
+                <DropdownMenuSeparator className="bg-white" />
                 <DropdownMenuItem
-                  className="cursor-pointer text-white"
+                  className="cursor-pointer text-black"
                   onClick={() => {
-                    window.location.href = "/profile";
+                    route.push("/profile");
                   }
                   }
                 >
                   Profile Info
                 </DropdownMenuItem>
                 <DropdownMenuItem
-                  className="cursor-pointer text-white"
+                  className="cursor-pointer text-black"
                 
                 >
                   My Orders

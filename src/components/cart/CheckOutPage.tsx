@@ -12,8 +12,7 @@ import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 export const CheckOutPage =  () => {
 
-    // const userData = useSelector((state : InitialState) => state.userData);
-    // console.log(userData);
+    const userData = useSelector((state : InitialState) => state.userData);
     const dispatch = useDispatch();
     const [CartProduct , setCartProduct] = useState< CartProduct[] | null>(null);
     const [loading , setLoading ] = useState<boolean>(true);
@@ -21,11 +20,11 @@ export const CheckOutPage =  () => {
     useEffect(() => {
         const fetchingCartData = async () => {
             try{
-                const userDetails = await isAuthenticated();
-                const userId = userDetails?.data.user.userId;
+                // const userDetails = await isAuthenticated();
+                // const userId = userDetails?.data.user.userId;
+                const userId = userData.id;
                 const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${userId}`);
                 dispatch(setCartData(CartResponse.data));
-
                 setCartProduct( CartResponse.data.products );
                 setLoading(false);
             }
@@ -49,6 +48,7 @@ export const CheckOutPage =  () => {
                 products : FilteredNewCartData
             }
             const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+            dispatch(setCartData(DeletedResponce.data));
             setCartProduct(FilteredNewCartData);
         }
         catch(e){
@@ -73,7 +73,8 @@ export const CheckOutPage =  () => {
                 id : CartResponse.data.id,
                 products : quantityUpdatedData
             }
-            const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+            const incrementedResponse = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+            dispatch(setCartData(incrementedResponse.data));
             setCartProduct(quantityUpdatedData);
         }
         catch(e){
@@ -101,7 +102,8 @@ export const CheckOutPage =  () => {
                     id : CartResponse.data.id,
                     products : quantityUpdatedData
                 }
-                const DeletedResponce = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+                const decrementedResponse = await axios.post(`api/user/cart/update/[cartId]/?cartId=${CartResponse.data.id}`,newCartVAlue);
+                dispatch(setCartData(decrementedResponse.data));
                 setCartProduct(quantityUpdatedData);
             }
             
@@ -124,7 +126,7 @@ export const CheckOutPage =  () => {
                             Cart
                         </div>
                     </div>
-                    {CartProduct && CartProduct.map((product : CartProduct) => {
+                    {cartData.products && cartData.products.map((product : CartProduct) => {
                         
                     return (
                         <div className="mt-10" key={product.id}>
