@@ -48,6 +48,7 @@ export const ProductFinalCard = () => {
     const userData = useSelector((state : InitialState) => state.userData)
     const [product , setProduct] = useState< Product | null >(null);
     const [loading , setloading] = useState(true);
+    const [isInCart, setIsInCart] = useState(false);
     const router = useRouter();
     useEffect(() => {
         const ProductData = async () => {
@@ -69,6 +70,24 @@ export const ProductFinalCard = () => {
         }
     },[loading , params.productId]);
 
+    useEffect(() => {
+
+        const checkIfProductInCart = async () => {
+                try {
+                    if (cartData) {
+                        const productInCart = cartData.products.some((item: any) => item.id === product?.id);
+                        setIsInCart(productInCart);
+                    }
+                } catch (error) {
+                    console.log("Error fetching cart data:", error);
+                }
+            }
+        
+        if(product) {
+            checkIfProductInCart();
+        }
+    }, [product, dispatch]);
+
     const handleAddToCart = async () => {
         const response = await isAuthenticated();
         if (!response || response.status !== 200) {
@@ -81,7 +100,7 @@ export const ProductFinalCard = () => {
           id: response.data.user.id,
         }))
         const ruserData = response.data.user;
-        console.log(userData)
+
         try {
           const cartResponse = await axios.post(`/api/user/cart/get/[userId]/?userId=${ruserData.userId}`);
           const productWithQuantity = { ...product, quantity: 1 };
@@ -98,6 +117,7 @@ export const ProductFinalCard = () => {
     
     const createCartInDatabase = async (ruserId:string,sendData: any) => {
         try {
+
           const { data } = await axios.post("/api/user/cart/create", {
             products: [sendData],
             userId: ruserId,
@@ -107,6 +127,7 @@ export const ProductFinalCard = () => {
             id: data.id,
           }));
           router.push("/checkout");
+
         } catch (error) {
           console.log(error);
           alert("Something went wrong while creating the cart");
@@ -123,6 +144,7 @@ export const ProductFinalCard = () => {
           await axios.post(`/api/user/cart/update/[cartId]/?cartId=${cartId}`, updatedCartData);
           dispatch(setCartData(updatedCartData));
           router.push("/checkout");
+
         } catch (error) {
           console.log("Error updating cart!");
         }
@@ -164,14 +186,17 @@ export const ProductFinalCard = () => {
                                 { product.stock || 0 > 0 ? "In Stock" : "Out of Stock"}
                             </div>
                             <div className="flex flex-col" >
-                                <Link href={`/payment/${product.id}`} className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
+                                <Link href={`/payment/${product.id}?quantity=${1}`} className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
                                     Buy Now
                                 </Link>
-                                <button onClick={handleAddToCart} className="bg-yellow-500 w-[50%] h-10 hover:bg-yellow-700 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
-                                    <div className="flex ml-4">
-                                        Add <ShoppingCartIcon className="ml-2 h-6 "/>
-                                    </div>
-                                </button>
+                                <button
+                                        onClick={isInCart ? () => router.push(`/checkout`) : handleAddToCart}
+                                        className={`w-[50%] h-10 font-bold py-2 px-4 border rounded-md mt-3 ${isInCart ? 'bg-blue-500 hover:bg-blue-700' : 'bg-yellow-500 hover:bg-yellow-700'} text-white`}
+                                    >   <div className="flex ml-3 justify-center">
+                                            {isInCart ? "View" : "Add"} <ShoppingCartIcon className="ml-2 h-6 "/>
+                                        </div>
+                                        
+                                    </button>
                             </div>
                             </div>
                     </div>

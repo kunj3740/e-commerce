@@ -68,6 +68,7 @@ model Order{
   updatedAt   DateTime            @updatedAt
   status      OrederStatus        @default(Pending)
   products    Json
+  total       Int                 @default(0)
 }
 model resetToken {
   id        String   @id @default(uuid())

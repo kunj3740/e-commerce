@@ -61,12 +61,12 @@ const OrderPage = () => {
                     <ActivityIcon className="mr-2 text-red-500"/>
                     My Orders
                 </div>   
-            <div className="min-w-[800px] max-w-[900px]  h-full m-auto pt-4 bg-slate">
+            <div className="min-w-[800px] max-w-[900px]   m-auto  bg-slate ">
             {orders &&
             orders.map((order:order, key) => {
                 return (
                 <div key={key}>
-                    <div className="h-[250px] grid grid-cols-12  mt-[2px]  ">
+                    <div className="h-[250px] grid grid-cols-12  mt-[10px] cursor-pointer ">
                     <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all">
                         <img
                         className="m-auto max-h-[200px] hover:scale-110 transition-all"
@@ -97,7 +97,7 @@ const OrderPage = () => {
                     
                     </div>
                     </div>
-                    <div className='bg-slate-200 h-[100px]'>
+                    <div className='bg-slate-200 h-[50px]'>
 
                     </div>
                 </div>

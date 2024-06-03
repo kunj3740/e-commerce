@@ -2,13 +2,17 @@
 import axios from "axios";
 import { Activity, ActivityIcon, ActivitySquareIcon } from "lucide-react";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { isAuthenticated } from "../productFinalLook/ProductFinalCard";
 import { Button } from "../ui/button";
 import { Skeleton } from "../ui/skeleton";
 import toast from "react-hot-toast";
+import { InitialState, OrderProduct } from "@/redux/types";
+import { useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { setOrderData } from "@/redux/actions";
 
 interface Product {
   product_name: string;
@@ -35,7 +39,12 @@ export const PaymentPage = () => {
 
   const route = useRouter();
   const params = useParams();
-  const [ ProductQuantity , setProductQuantity ] = useState<number>(1);
+  const searchParams = useSearchParams();
+  const temp = searchParams.get('quantity');
+  const quantity = Number(temp)
+  const [ ProductQuantity , setProductQuantity ] = useState<number>(quantity);
+  const orderData = useSelector((state : InitialState ) => state.order);
+  const dispatch = useDispatch();
   const [ loading , setloading ] = useState<boolean>(true);
   const [ product , setProduct ] = useState<Product>({
     product_name: "",
@@ -96,11 +105,13 @@ export const PaymentPage = () => {
       }
       else{
         product.quantity = ProductQuantity;
-        product.price = product.price*ProductQuantity;
-        const response = await axios.post(`/api/user/order/addOrder`,{
+        let newOrder = {
           userId:userInfo.id,
-          products:product,
-        })
+          products: [product] ,
+          total:product.price*ProductQuantity,
+        }
+        const response = await axios.post(`/api/user/order/addOrder`,newOrder)
+        dispatch(setOrderData(newOrder));
         toast.success("product orderd successfully!!");
         route.push("/order")
       }  
@@ -120,6 +131,7 @@ export const PaymentPage = () => {
   }
   return (
     <div>
+
         <div className=" text-slate-800 text-xl md:text-3xl font-bold flex items-center justify-center mt-6">
             <ActivitySquareIcon className="mr-2"/>Make Payment
         </div>
