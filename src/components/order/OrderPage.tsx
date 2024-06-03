@@ -58,9 +58,10 @@ const OrderPage = () => {
             <div className='bg-slate-200'>
                 <div className="text-xl md:text-3xl font-bold text-slate-800 flex justify-center
                 h-[70px] items-center">
+                    <ActivityIcon className="mr-2 text-red-500"/>
                     My Orders
                 </div>   
-            <div className="min-w-[1000px] max-w-[1100px]  h-full m-auto pt-4 bg-slate">
+            <div className="min-w-[800px] max-w-[900px]  h-full m-auto pt-4 bg-slate">
             {orders &&
             orders.map((order:order, key) => {
                 return (
@@ -76,22 +77,27 @@ const OrderPage = () => {
                     <div className="col-span-9 bg-white border border-white hover:bg-gray-50 ">
                         <div className="font-medium text-black mt-4">
                         <div className="mb-1">
-                        <div className="text-xl xl:text-2xl mb-1 font-semibold text-slate-800">
-                            {order.products.product_name}
+                        <div className="text-xl xl:text-2xl flex justify-between  mb-1 font-semibold text-slate-800">
+                            <div>
+                                {order.products.product_name}
+                            </div>
+                            <div className="text-md md:text-xl mr-4">
+                                Quantity :- {order.products.quantity}
+                            </div>
                         </div>
                         </div>
-                        <div className="text-xl xl:text-2xl text-red-600 font-semibold mt-2">
+                        <div className="text-xl xl:text-2xl flex text-red-600 font-semibold mt-2">
                             Rs.{order.products.price}
                         </div>
                         </div>
                 
-                        <button className="bg-slate-800 w-[15%] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
-                            View More
-                        </button>
+                        <div className="bg-slate-800 w-[15%] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                            Pending
+                        </div>
                     
                     </div>
                     </div>
-                    <div className='bg-slate-200 h-[20px]'>
+                    <div className='bg-slate-200 h-[100px]'>
 
                     </div>
                 </div>

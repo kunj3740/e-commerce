@@ -70,6 +70,9 @@ export const PaymentPage = () => {
         const res = await axios.get(`/api/user/Auth/getPersonalInfo/[userId]/?userId=${userId}`);
 
         setUserInfo(res.data.user);
+
+        
+
         const resp = await axios.post(`/api/user/product/getProduct/[productId]`,
                 {
                     "productId" : params.productId
@@ -87,14 +90,20 @@ export const PaymentPage = () => {
 
   const PaymentOnClickHandler = async () => {
     try{
-      product.quantity = ProductQuantity;
-      product.price = product.price*ProductQuantity;
-      const response = await axios.post(`/api/user/order/addOrder`,{
-        userId:userInfo.id,
-        products:product,
-      })
-      toast.success("product orderd successfully!!");
-      route.push("/order")
+      if ( !userInfo.phoneno ) {
+        toast.error("please fill all details")
+        route.push("/profile");
+      }
+      else{
+        product.quantity = ProductQuantity;
+        product.price = product.price*ProductQuantity;
+        const response = await axios.post(`/api/user/order/addOrder`,{
+          userId:userInfo.id,
+          products:product,
+        })
+        toast.success("product orderd successfully!!");
+        route.push("/order")
+      }  
     }
     catch(e){
       toast.error("product order failed!!");

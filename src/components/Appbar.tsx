@@ -83,7 +83,9 @@ const Appbar = () => {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="cursor-pointer text-blue-900 font-semibold"
-                  
+                  onClick={() => {
+                    route.push("/order");
+                  }}
                 >
                   My Orders
                 </DropdownMenuItem>
