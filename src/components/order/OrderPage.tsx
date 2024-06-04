@@ -29,6 +29,7 @@ import { Cart, CartProduct, InitialState, Order, Product } from "@/redux/types"
 const OrderPage = () => {
     const [ orders , setOrders ] = useState<Order[]>([]); 
     const [ loading , setloading ] = useState<boolean>(true);
+    const dispatch = useDispatch();
     const userData = useSelector((state : InitialState) => state.userData);
     const route = useRouter();
     const orderData = useSelector((state : InitialState ) => state.orders); 
@@ -36,9 +37,10 @@ const OrderPage = () => {
         const FetchProduct = async () => {
           try{
             if(userData.id){
-                // const userId = userData.id;
-                // const res = await axios.post(`/api/user/order/getOrder/?userId=${userId}`);
-                setOrders(orderData);
+                const OrderResponse = await axios.post(`api/user/order/getOrder/?userId=${userData.id}`);
+                console.log("order response:",OrderResponse?.data)
+                dispatch(setOrderData(OrderResponse?.data));
+                setOrders(OrderResponse.data);
                 setloading(false);
             }
           }
@@ -66,7 +68,7 @@ const OrderPage = () => {
                                       <div onClick={() => {
                                         route.push(`order/${order.id}`);
                                       }} className="h-[250px] grid grid-cols-12  mt-[2px] cursor-pointer ">
-                                    <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all " onClick={()=>{route.push(`/order/[orderId]/?${product.id}`)}}>
+                                    <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all ">
                                         <img
                                         className="m-auto max-h-[200px] hover:scale-110 transition-all"
                                         src={product.image}

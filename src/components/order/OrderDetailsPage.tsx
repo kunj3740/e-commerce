@@ -3,28 +3,51 @@
 import dateFormaterHandler from "@/lib/DateFormatter";
 import { InitialState, Order, OrderProduct, Product } from "@/redux/types";
 import axios from "axios";
+import { reverse } from "dns";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 import { useSelector } from "react-redux";
+import { date } from "zod";
 
 
 
 const OrderDetailsPage = () => {
   const [loading, setLoading] = useState(false);
+  const [ order , setOrder ] = useState<Order>({
+    id: "",
+    userId: "",
+    status: "Pending",
+    total: 0,
+    products: [],
+    createdAt:  new Date(),
+    updatedAt: new Date()
+  });
   const orderData = useSelector((state: InitialState) => state.orders);
   const param = useParams();
   const router = useRouter();
   const userData = useSelector((state: InitialState) => state.userData);
+  useEffect(() => {
+    const DateFormater = async () => {
+      orderData.map((ordervalue : Order) => {
+        if(ordervalue.id === param.orderId ){
+          setOrder(ordervalue);
 
+        }
+      })
+    } 
+    userData && DateFormater();
+  },[])
+  
+  let formatteDate = order.createdAt.toString().slice(0 , 10 );
   return (
     <section className="w-full h-[90vh] flex justify-center items-center">
       {!loading && orderData.length > 0 && (
         <section className="mx-auto py-8 md:container w-[90%] md:w-[75%] md:min-h-[50vh] rounded-md border px-4 flex flex-col gap-8">
-          {orderData.map((order: Order , orderIndex:number) => (
           
-           order.id === param.orderId && <div key={orderIndex} className="flex justify-evenly items-center flex-col-reverse md:flex-row">
+          
+           <div  className="flex justify-evenly items-center flex-col-reverse md:flex-row">
               <div>
                 <p className="bg-[#272e3f] inline-block text-white px-2 py-1 mb-2 text-xs font-medium rounded tracking-wider">
                   {order.status}
@@ -58,9 +81,9 @@ const OrderDetailsPage = () => {
                     {order.total}
                   </p>
                 </div>
-                <p className="mt-6 mb-2 text-sm md:text-base">
-                  <span className="font-semibold">Order Placed:</span>{" "}
-                  {/* {order.createdAt} */}
+                <p className="mt-6 mb-2 text-sm md:text-base font-semibold">
+                  <span className="font-semibold">Order Placed :</span>{"  "}
+                  {formatteDate}
                 </p>
               </div>
               <div className="flex justify-center items-center mb-8 md:mb-0">
@@ -72,7 +95,7 @@ const OrderDetailsPage = () => {
                 />
               </div>
             </div>
-          ))}
+          
         </section>
       )}
     </section>

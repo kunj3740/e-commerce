@@ -49,9 +49,7 @@ const Appbar = () => {
         dispatch(setCartData(CartResponse.data));
         
         if(userData.id){
-          const OrderResponse = await axios.post(`api/user/order/getOrder/?userId=${userData.id}`);
-          console.log("order response:",OrderResponse?.data)
-          dispatch(setOrderData(OrderResponse?.data));
+          
         }
       } catch (error) {
         console.error('Error while fetching user', error);
