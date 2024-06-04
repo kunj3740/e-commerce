@@ -1,4 +1,4 @@
-"use client";
+"use client"
 
 import dateFormaterHandler from "@/lib/DateFormatter";
 import { InitialState, Order, OrderProduct, Product } from "@/redux/types";
@@ -12,22 +12,19 @@ import { useSelector } from "react-redux";
 
 
 const OrderDetailsPage = () => {
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const orderData = useSelector((state: InitialState) => state.orders);
   const param = useParams();
   const router = useRouter();
   const userData = useSelector((state: InitialState) => state.userData);
-
-  useEffect(() => {
-    
-  }, []);
 
   return (
     <section className="w-full h-[90vh] flex justify-center items-center">
       {!loading && orderData.length > 0 && (
         <section className="mx-auto py-8 md:container w-[90%] md:w-[75%] md:min-h-[50vh] rounded-md border px-4 flex flex-col gap-8">
           {orderData.map((order: Order , orderIndex:number) => (
-            <div key={orderIndex} className="flex justify-evenly items-center flex-col-reverse md:flex-row">
+          
+           order.id === param.orderId && <div key={orderIndex} className="flex justify-evenly items-center flex-col-reverse md:flex-row">
               <div>
                 <p className="bg-[#272e3f] inline-block text-white px-2 py-1 mb-2 text-xs font-medium rounded tracking-wider">
                   {order.status}
@@ -41,7 +38,7 @@ const OrderDetailsPage = () => {
                   </p>
                   <p className="w-1/4 font-semibold text-sm md:text-base">Total</p>
                 </div>
-                {order.products.map((item: OrderProduct) => (
+                {order && order.products.map((item: OrderProduct) => (
                   <div key={item.id} className="w-full flex justify-start items-start my-2">
                     <p className="w-3/4 cursor-pointer text-xs md:text-sm">
                       <Link href={`/product/${item.id}`} target="_blank">

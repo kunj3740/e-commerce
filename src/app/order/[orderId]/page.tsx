@@ -1,4 +1,4 @@
-import { OrderDetailsPage } from "@/components/order/OrderDetailsPage";
+import  OrderDetailsPage  from "@/components/order/OrderDetailsPage";
 
 
 export const page = () => {
