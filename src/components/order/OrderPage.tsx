@@ -63,7 +63,9 @@ const OrderPage = () => {
                     {
                         order.products.map((product:OrderProduct,productIndex:number)=>(
                             <div key={productIndex} className="product">
-                                      <div className="h-[250px] grid grid-cols-12  mt-[2px]  ">
+                                      <div onClick={() => {
+                                        route.push(`order/${order.id}`);
+                                      }} className="h-[250px] grid grid-cols-12  mt-[2px] cursor-pointer ">
                                     <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all " onClick={()=>{route.push(`/order/[orderId]/?${product.id}`)}}>
                                         <img
                                         className="m-auto max-h-[200px] hover:scale-110 transition-all"
