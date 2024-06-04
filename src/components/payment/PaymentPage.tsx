@@ -43,7 +43,7 @@ export const PaymentPage = () => {
   const temp = searchParams.get('quantity');
   const quantity = Number(temp)
   const [ ProductQuantity , setProductQuantity ] = useState<number>(quantity);
-  const orderData = useSelector((state : InitialState ) => state.order);
+  const orderData = useSelector((state : InitialState ) => state.orders);
   const dispatch = useDispatch();
   const [ loading , setloading ] = useState<boolean>(true);
   const [ product , setProduct ] = useState<Product>({
@@ -105,13 +105,23 @@ export const PaymentPage = () => {
       }
       else{
         product.quantity = ProductQuantity;
-        let newOrder = {
+        const total = product.price*ProductQuantity;
+        const response = await axios.post(`/api/user/order/addOrder`,{
           userId:userInfo.id,
-          products: [product] ,
-          total:product.price*ProductQuantity,
+          products:[product],
+          total:total,
+        })
+        const newOrder = {
+          id:response?.data.id,
+          products:[product],
+          userId:userInfo.id,
+          createdAt:response?.data.createdAt,
+          total:total,
+          updatedAt:response?.data.updatedAt,
+          status:response?.data.status,
         }
-        const response = await axios.post(`/api/user/order/addOrder`,newOrder)
-        dispatch(setOrderData(newOrder));
+        dispatch(setOrderData([...orderData,newOrder]));
+       
         toast.success("product orderd successfully!!");
         route.push("/order")
       }  

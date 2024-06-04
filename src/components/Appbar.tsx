@@ -26,7 +26,8 @@ import { Cart, CartProduct, InitialState, Order, Product } from "@/redux/types"
 const Appbar = () => {
   const [isUserExisted, setIsUserExisted] = useState(false);
   const userData = useSelector((state : InitialState) => state.userData);
-  const cartData = useSelector((state : InitialState ) => state.cart)
+  const cartData = useSelector((state : InitialState ) => state.cart);
+  const orderData = useSelector((state : InitialState ) => state.orders);
   const dispatch = useDispatch();
   const route = useRouter();
   useEffect(() => {
@@ -47,15 +48,17 @@ const Appbar = () => {
         const CartResponse = await axios.post(`api/user/cart/get/[userId]/?userId=${response.data.user.userId}`);
         dispatch(setCartData(CartResponse.data));
         
-        const OrderResponse = await axios.post(`/api/user/order/getOrder/?userId=${userData.id}`)
-        dispatch(setOrderData(OrderResponse.data));
-        
+        if(userData.id){
+          const OrderResponse = await axios.post(`api/user/order/getOrder/?userId=${userData.id}`);
+          console.log("order response:",OrderResponse?.data)
+          dispatch(setOrderData(OrderResponse?.data));
+        }
       } catch (error) {
         console.error('Error while fetching user', error);
       }
     };
     getUserData();
-  }, []);
+  }, [userData.id,dispatch]);
   const logoutHandler = async () => {
     try {
       await axios.get("/api/user/Auth/signout");

@@ -16,7 +16,7 @@ export const CheckOutPage =  () => {
     const userData = useSelector((state : InitialState) => state.userData);
     const dispatch = useDispatch();
     const [loading , setLoading ] = useState<boolean>(true);
-    const cartData = useSelector((state : InitialState ) => state.cart)
+    const cartData = useSelector((state : InitialState ) => state.cart);
     const route = useRouter();
 
     useEffect(() => {
