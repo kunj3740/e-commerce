@@ -205,7 +205,11 @@ export const CheckOutPage =  () => {
                     <div className="text-lg xl:text-xl text-right mb-4 mr-4">
                     Subtotal ({} items):{" "}
                     <span className="font-semibold">
-                        
+                                            <button onClick={() => {
+                                                route.push(`/payment/cart`)
+                                            }} className="bg-slate-700 w-[150px] h-10 hover:bg-slate-500 text-white font-bold py-2 px-4 border border-black-500 rounded-md mt-3">
+                                                Buy Now
+                                            </button>
                     </span>
                     </div>
                 </div>

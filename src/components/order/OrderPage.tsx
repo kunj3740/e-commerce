@@ -38,8 +38,6 @@ const OrderPage = () => {
           try{
             if(userData.id){
                 const OrderResponse = await axios.post(`api/user/order/getOrder/?userId=${userData.id}`);
-                console.log("order response:",OrderResponse?.data)
-                dispatch(setOrderData(OrderResponse?.data));
                 setOrders(OrderResponse.data);
                 setloading(false);
             }
@@ -57,25 +55,26 @@ const OrderPage = () => {
                 h-[70px] items-center">
                     My Orders
                 </div>   
-            <div className="min-w-[1000px] max-w-[1100px]  h-full m-auto pt-4 bg-slate">
+            <div className="min-w-[1000px] max-w-[1100px]  h-full ml-auto mr-auto">
             {
                 orders &&
-                orders.map((order:Order,orderIndex:number)=>(
-                    <div key={orderIndex} className="order">
+                orders.map((order:Order,orderIndex:number) => (
+                    <div key={orderIndex} className="order mt-[50px] border-slate-500 border-y border-x-2 border-t-2  bg-white rounded-xl">
                     {
-                        order.products.map((product:OrderProduct,productIndex:number)=>(
-                            <div key={productIndex} className="product">
+                        order.products.map((product:OrderProduct) => (
+                            <div key={product.id} className="product ">
                                       <div onClick={() => {
+
                                         route.push(`order/${order.id}`);
-                                      }} className="h-[250px] grid grid-cols-12  mt-[2px] cursor-pointer ">
-                                    <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all ">
+                                      }} className=" grid grid-cols-12   cursor-pointer">
+                                    <div className="col-span-3 p-4 ">
                                         <img
-                                        className="m-auto max-h-[200px] hover:scale-110 transition-all"
+                                        className="m-auto max-h-[200px] hover:scale-105 transition-all"
                                         src={product.image}
                                         alt="Search result product"
                                         />
                                     </div>
-                                    <div className="col-span-9 bg-white border border-white hover:bg-gray-50 ">
+                                    <div className="col-span-9">
                                         <div className="font-medium text-black mt-4">
                                         <div className="mb-1">
                                         <div className="text-xl xl:text-2xl flex justify-between mb-1 :first-letter:first-line:marker:selection:file:font-semibold text-slate-800">
@@ -91,17 +90,11 @@ const OrderPage = () => {
                                             Rs.{product.price}
                                         </div>
                                         </div>
-                                
-                                       
-                                    
                                     </div>
                                     </div>
-                                    <div className='bg-slate-200 h-[20px]'>
+                                    <div className="h-[1px] bg-slate-400 w-[1081px] ml-auto mr-auto">
 
                                     </div>
-
-
-                        {/* // dhruvcdskjbkjcbkjcdscjdscdkjckjcdjd */}
                             </div>
                             
                         ))
@@ -109,6 +102,9 @@ const OrderPage = () => {
                     </div>
                 ))
             }
+            <div className="h-[50px]">
+
+            </div>
         </div>
 
 

@@ -1,14 +1,17 @@
 import prisma from "@/lib/prismadb";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function DELETE(
-  req: Request,
+export async function POST(
+  req: NextRequest,
 ) {
-    const body = await req.json();
+  const cartId = req.nextUrl.searchParams.get("cartId");
+  if( ! cartId ) {
+    return new NextResponse("Params Cart Id missing:" , { status : 400 });
+  }
   try {
     await prisma.cart.delete({
       where: {
-        id: body.cartId,
+        id: cartId,
       },
     });
     return new NextResponse("Cart Cleared", { status: 200 });
