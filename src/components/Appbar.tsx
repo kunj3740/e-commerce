@@ -151,7 +151,7 @@ const Appbar = () => {
             />
           </Link>
           <div className="pr-4 pl-2">
-            <div className="text-sm xl:text-base font-bold">Ship-Shop-Shup</div>
+            <div className="text-sm xl:text-base font-bold">D-Kart</div>
           </div>
         </div>
         {/* Middle */}

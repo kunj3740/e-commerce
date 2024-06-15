@@ -45,7 +45,7 @@ const Search = () => {
           }
         };
         fetchData();
-      }, []);
+      }, [searchTerm]);
 
   return(
         <div className="w-[900px]">

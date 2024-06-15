@@ -36,7 +36,7 @@ const ProductSuggestion = () => {
     
 
     return (
-       <div className='bg-slate-200'>
+       <div className='bg-slate-100 min-h-[590px]'>
           
           <div className="min-w-[1000px] max-w-[1100px]  h-full m-auto pt-4 bg-slate">
         {products &&
@@ -44,7 +44,7 @@ const ProductSuggestion = () => {
             return (
               <Link key={key} href={`/product/${product.id}`}>
                 <div className="h-[250px] grid grid-cols-12  mt-[2px]  ">
-                  <div className="col-span-3 p-4 bg-white hover:bg-slate-50 trasition-all">
+                  <div className="col-span-3 p-4 bg-white trasition-all">
                     <img
                       className="m-auto max-h-[200px] hover:scale-110 transition-all"
                       src={product.image}
@@ -71,9 +71,6 @@ const ProductSuggestion = () => {
                       </button>
                 
                   </div>
-                </div>
-                <div className='bg-slate-200 h-[20px]'>
-
                 </div>
               </Link>
             );

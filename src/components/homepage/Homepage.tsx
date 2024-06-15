@@ -9,6 +9,7 @@ import axios from "axios";
 import CategorywiseProducts from "./CategorywiseProducts";
 import { number } from "zod";
 import CardContainer from "./MoveAbleCard";
+import Faqs from "../Faqs";
 
 interface Product {
   id: string;
@@ -41,14 +42,7 @@ const HomePage = () => {
 
   return (
     <div className="bg-slate-100 ">
-      <HomePageLamp children="Ship Shop Shou"/>
-      {/* <div className="flex">
-      <CardContainer/>
-      <CardContainer/>
-      <CardContainer/>
-      <CardContainer/>
-      </div> */}
-    
+      <HomePageLamp children="D-Kart"/>
       <div>
       <div className="h-[100px]"></div>
       {data &&
@@ -59,7 +53,7 @@ const HomePage = () => {
         })
       }
     </div>
-
+      <Faqs/>
     </div>
   );
 };

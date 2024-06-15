@@ -47,10 +47,45 @@ const OrderPage = () => {
           }
         }
         FetchProduct();
-      }, [])
+      }, [userData])
+
+      if(loading){
+        return <div className='h-[590px] '>
+        <div className='flex justify-center'>
+            <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
+                <Skeleton className='col-span-3 mr-5 h-[250px]'>
+                    <Skeleton className=''/>
+                </Skeleton>
+                <Skeleton className='col-span-9  h-[250px]'>
+                    <Skeleton/>
+                </Skeleton>
+            </div>
+        </div>
+        <div className='flex justify-center mt-2'>
+            <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
+                <Skeleton className='col-span-3 mr-5 h-[250px]'>
+                    <Skeleton className=''/>
+                </Skeleton>
+                <Skeleton className='col-span-9  h-[250px]'>
+                    <Skeleton/>
+                </Skeleton>
+            </div>
+        </div>
+        </div>
+      }
+    else{
   return (
-    <div>
-            <div className='bg-slate-200'>
+    <div className="min-h-[590px] bg-slate-100">
+            { orders.length == 0 && 
+                (<div className="h-full w-full flex flex-col justify-center items-center bg-white">
+                    <div className="text-xl md:text-3xl text-purple-800 font-semibold mt-5">
+                        Order Is Empty
+                    </div>
+                    <div className="h-full">
+                        <img  src="../images/cartempty.png" alt="" />
+                    </div>
+                </div>)
+             }{ orders.length != 0 && <div className='bg-slate-100'>
                 <div className="text-xl md:text-3xl font-bold text-slate-800 flex justify-center
                 h-[70px] items-center">
                     My Orders
@@ -59,12 +94,12 @@ const OrderPage = () => {
             {
                 orders &&
                 orders.map((order:Order,orderIndex:number) => (
-                    <div key={orderIndex} className="order mt-[50px] border-slate-500 border-y border-x-2 border-t-2  bg-white rounded-xl">
+                    <div key={orderIndex} className="order mt-[50px] border-slate-400 border-y border-x-2 border-t-2  bg-white rounded-xl shadow-xl">
                     {
                         order.products.map((product:OrderProduct) => (
                             <div key={product.id} className="product ">
                                       <div onClick={() => {
-
+                                        
                                         route.push(`order/${order.id}`);
                                       }} className=" grid grid-cols-12   cursor-pointer">
                                     <div className="col-span-3 p-4 ">
@@ -92,7 +127,7 @@ const OrderPage = () => {
                                         </div>
                                     </div>
                                     </div>
-                                    <div className="h-[1px] bg-slate-400 w-[1081px] ml-auto mr-auto">
+                                    <div className="h-[1px] bg-slate-500 w-[1081px] ml-auto mr-auto">
 
                                     </div>
                             </div>
@@ -106,39 +141,11 @@ const OrderPage = () => {
 
             </div>
         </div>
-
-
-
-        {
-            loading && 
-            <div className='h-[550px]'>
-            <div className='flex justify-center'>
-                <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
-                    <Skeleton className='col-span-3 mr-5 h-[250px]'>
-                        <Skeleton className=''/>
-                    </Skeleton>
-                    <Skeleton className='col-span-9  h-[250px]'>
-                        <Skeleton/>
-                    </Skeleton>
-                </div>
-            </div>
-            <div className='flex justify-center mt-2'>
-                <div className="h-[250px] grid grid-cols-12 rounded mt-1 mb-2 w-[80%]">
-                    <Skeleton className='col-span-3 mr-5 h-[250px]'>
-                        <Skeleton className=''/>
-                    </Skeleton>
-                    <Skeleton className='col-span-9  h-[250px]'>
-                        <Skeleton/>
-                    </Skeleton>
-                </div>
-            </div>
-            </div>
-        }
-        </div>
+        </div>}
     </div>
   )
 }
-
+}
 export default OrderPage;
 
 

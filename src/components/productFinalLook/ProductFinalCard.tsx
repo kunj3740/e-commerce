@@ -15,6 +15,7 @@ import { setCartData, setOrderData, setUserData } from "@/redux/actions";
 import { Cart, CartProduct, InitialState, Order } from "@/redux/types"
 import { stat } from "fs";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 // import { GB_CURRENCY } from "../utils/constants";
 // import { callAPI } from "../utils/CallApi";
 // import { addToCart } from "../redux/cartSlice";
@@ -68,7 +69,7 @@ export const ProductFinalCard = () => {
         if(loading){
             ProductData();
         }
-    },[loading , params.productId]);
+    },[]);
 
     useEffect(() => {
 
@@ -86,12 +87,13 @@ export const ProductFinalCard = () => {
         if(product) {
             checkIfProductInCart();
         }
-    }, [product, dispatch]);
+    }, [product]);
 
     const handleAddToCart = async () => {
         const response = await isAuthenticated();
         if (!response || response.status !== 200) {
-            alert("It seems like you are not registered or signed in.");
+            router.push(`/signin`)
+            toast.error("user have login first");
             return;
         }
         dispatch(setUserData({
@@ -151,13 +153,13 @@ export const ProductFinalCard = () => {
       };
     
         return (
-      <div className="bg-slate-200">
+      <div >
         
-        <div>
+        <div className=" bg-slate-00">
             {
-              !loading && product && (<div className="bg-slate-200 mt-7 ">
-                    <div className="min-w-[1000px] max-w-[1500px]  p-4">
-                    <div className="grid grid-cols-10 gap-2 border-2">
+              !loading && product && (<div className=" mt- min-h-[590px]">
+                    <div className="min-w-[1000px] max-w-[1500px] bg-slate-100 p-4">
+                    <div className="grid grid-cols-10 gap-2 border-2 ">
                         {/* Left */}
                         <div className=" p-8 col-span-8 rounded bg-white  md:col-span-2">
                             <img className="max-h-[350px] hover:scale-110 transition-all" src={product.image} alt="Main product" />
@@ -186,11 +188,19 @@ export const ProductFinalCard = () => {
                                 { product.stock || 0 > 0 ? "In Stock" : "Out of Stock"}
                             </div>
                             <div className="flex flex-col" >
-                                <Link href={`/payment/${product.id}?quantity=${1}`} className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
+                                <div onClick={() => {
+                                  if( userData.id ){
+                                    router.push(`/payment/${product.id}?quantity=${1}`);
+                                  }
+                                  else{
+                                    router.push(`/signin`);
+                                    toast.error("user have to login first");
+                                  }
+                                }}   className="bg-black hover:bg-slate-700 text-white font-bold py-2 px-4 border border-black w-[50%] rounded-md mt-3">
                                     Buy Now
-                                </Link>
+                                </div>
                                 <button
-                                        onClick={isInCart ? () => router.push(`/checkout`) : handleAddToCart}
+                                        onClick={isInCart ? () => { router.push(`/cart`) } : handleAddToCart}
                                         className={`w-[50%] h-10 font-bold py-2 px-4 border rounded-md mt-3 ${isInCart ? 'bg-blue-500 hover:bg-blue-700' : 'bg-yellow-500 hover:bg-yellow-700'} text-white`}
                                     >   <div className="flex ml-3 justify-center">
                                             {isInCart ? "View" : "Add"} <ShoppingCartIcon className="ml-2 h-6 "/>
@@ -206,7 +216,7 @@ export const ProductFinalCard = () => {
     
            { loading && (<div>
 
-                <div className="bg-slate-200 mt-7">
+                <div className="bg-slate-100 min-h-[590px]">
                 <div className="min-w-[1000px] max-w-[1500px] h-[450px] p-4">
                     <div className="grid grid-cols-10 gap-2 border-2">
                         {/* Left */}

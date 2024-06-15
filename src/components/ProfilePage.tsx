@@ -247,7 +247,7 @@ const ProfilePage = () => {
             </section>
           )}
           {loading && (
-            <div>
+            <div className="min-h-[590px]">
               <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
               <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>
               <Skeleton className="h-[100px] w-[1000px] flex justify-center mt-3 bg-slate-400 items-center "/>

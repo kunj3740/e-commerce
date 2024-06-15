@@ -74,9 +74,9 @@ const OrderDetailsPage = () => {
                 {order && order.products.map((item: OrderProduct) => (
                   <div key={item.id} className="w-full flex justify-start items-start my-2">
                     <p className="w-3/4 cursor-pointer text-xs md:text-sm">
-                      <Link href={`/product/${item.id}`} target="_blank">
+                      <div>
                         {item.product_name}
-                      </Link>
+                      </div>
                     </p>
                     <p className="w-1/4 text-xs md:text-sm">
                       {item.quantity} x ₹{item.price}
