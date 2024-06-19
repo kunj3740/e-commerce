@@ -1,7 +1,7 @@
 "use client";
 import { useRouter,useSearchParams } from 'next/navigation';
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { useEffect, useState } from "react"; // Corrected useState import
+import { Suspense, useEffect, useState } from "react";
 import axios from "axios";
 import Link from "next/link"; // Corrected Link import
 import { Button } from '@/components/ui/button';
@@ -9,8 +9,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import { Product } from '@/components/Search';
 import Appbar from '@/components/Appbar';
 
-export default function  ProductSuggestion  ()  {
-    const searchParams = useSearchParams()
+function  ProductSuggestionComponent  ()  {
+    const searchParams = useSearchParams();
     const router = useRouter();
     const searchTerm = searchParams.get('searchTerm')
     const [ loading , setLoading ] = useState(true);
@@ -104,5 +104,11 @@ export default function  ProductSuggestion  ()  {
     </div>
     );
 };
-
+export default function ProductSuggestion() {
+  return (
+      <Suspense fallback={<div>Loading...</div>}>
+          <ProductSuggestionComponent />
+      </Suspense>
+  );
+}
 // export default ProductSuggestion;
