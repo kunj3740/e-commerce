@@ -104,7 +104,7 @@ export const ProductFinalCard = () => {
         const ruserData = response.data.user;
 
         try {
-          const cartResponse = await axios.post(`/api/user/cart/get/[userId]/?userId=${ruserData.userId}`);
+          const cartResponse = await axios.post(`/api/user/cart/get/${ruserData.userId}`);
           const productWithQuantity = { ...product, quantity: 1 };
           if (cartResponse.data !== "Cart not found") {
             updateCartInDatabase(cartResponse.data,productWithQuantity);
@@ -143,7 +143,7 @@ export const ProductFinalCard = () => {
             id: cartId,
             products: [...respcartData.products, sendData]
           };
-          await axios.post(`/api/user/cart/update/[cartId]/?cartId=${cartId}`, updatedCartData);
+          await axios.post(`/api/user/cart/update/${cartId}`, updatedCartData);
           dispatch(setCartData(updatedCartData));
           router.push("/checkout");
 

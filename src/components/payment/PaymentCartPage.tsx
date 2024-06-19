@@ -78,7 +78,7 @@ const PaymentCartPage = () => {
                 products:cartData.products,
                 total:total,
               })
-              const res = await axios.post(`api/user/cart/clear/${cartData.id}`);
+              const res = await axios.post(`/api/user/cart/clear/${cartData.id}`);
               dispatch(setCartData({ products: [], id: "" }));
               toast.success("product orderd successfully!!");
               route.push("/order")
