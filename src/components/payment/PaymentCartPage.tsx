@@ -49,8 +49,12 @@ const PaymentCartPage = () => {
       useEffect(() => {
         const FetchProduct = async () => {
           try{
-        
-            const userId = userData.id;
+            const response = await isAuthenticated();
+            if (!response || response.status !== 200) {
+              return;
+            }
+            const userId = response.data.user.userId;
+            // const userId = userData.id;
             const res = await axios.get(`api/user/Auth/getPersonalInfo/${userId}`);
             let amount:number = 0;
              const totalamount = cartData.products.map((product:CartProduct)=>{
