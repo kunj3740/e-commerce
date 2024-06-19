@@ -60,7 +60,7 @@ const ProfilePage = () => {
           return;
         }
         const userId = response.data.user.userId;
-        const res = await axios.get(`/api/user/Auth/getPersonalInfo/[userId]/?userId=${userId}`);
+        const res = await axios.get(`api/user/Auth/getPersonalInfo/${userId}`);
 
         setUserInfo(res.data.user);
         setLoading(false);

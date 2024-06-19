@@ -76,7 +76,7 @@ export const PaymentPage = () => {
           return;
         }
         const userId = response.data.user.userId;
-        const res = await axios.get(`/api/user/Auth/getPersonalInfo/[userId]/?userId=${userId}`);
+        const res = await axios.get(`/api/user/Auth/getPersonalInfo/${userId}`);
 
         setUserInfo(res.data.user);
 
@@ -106,7 +106,7 @@ export const PaymentPage = () => {
       else{
         product.quantity = ProductQuantity;
         const total = product.price*ProductQuantity;
-        const response = await axios.post(`/api/user/order/addOrder`,{
+        const response = await axios.post(`api/user/order/addOrder`,{
           userId:userInfo.id,
           products:[product],
           total:total,
