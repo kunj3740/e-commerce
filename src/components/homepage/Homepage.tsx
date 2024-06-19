@@ -1,14 +1,10 @@
 "use client"
-import { CardComponent  , } from "./CardComponent";
-import HomepageImage from "./HomepageImage";
-import HomepageProductCard from "./HomepageProductCard";
 import HomePageLamp from "./HomePageLamp";
 
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CategorywiseProducts from "./CategorywiseProducts";
 import { number } from "zod";
-import CardContainer from "./MoveAbleCard";
 import Faqs from "../Faqs";
 
 interface Product {
@@ -42,7 +38,7 @@ const HomePage = () => {
 
   return (
     <div className="bg-slate-100 ">
-      <HomePageLamp children="D-Kart"/>
+      <HomePageLamp >D-Kart</HomePageLamp>
       <div>
       <div className="h-[100px]"></div>
       {data &&

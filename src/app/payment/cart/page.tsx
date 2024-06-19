@@ -1,8 +1,8 @@
 import PaymentCartPage from "@/components/payment/PaymentCartPage"
 
-export const page = () => {
+export default function page  ()  {
   return (
     <div><PaymentCartPage/></div>
   )
 }
-export default page
+// export default page

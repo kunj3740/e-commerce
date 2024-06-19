@@ -98,10 +98,10 @@ const PaymentCartPage = () => {
        {!loading &&
         cartData.products && cartData.products.map((product:CartProduct)=>{
             return (
-                <div>
+                <div key={product.id}>
                     <div>
                       <div>
-                        <div className="mt-10 w-[1000px] ml-[15%]" key={product.id}>
+                        <div className="mt-10 w-[1000px] ml-[15%]" >
                           <div className="h-[0.1px] bg-slate-800" />
                                 <div className="grid grid-cols-12 max-h-[250px]">
                                     <div className="col-span-10 grid grid-cols-8 divide-y divide-gray-400">

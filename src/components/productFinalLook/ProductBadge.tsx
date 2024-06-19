@@ -2,7 +2,7 @@ const ProductBadge = ({ badge }) => {
     if (badge === "choice") {
       return (
         <span className="text-xs xl:text-sm bg-slate-800 text-white p-1">
-          Amazon's <span className="text-orange-500">Choice</span>
+          D-karts <span className="text-orange-500">Choice</span>
         </span>
       );
     } else if (badge === "seller") {

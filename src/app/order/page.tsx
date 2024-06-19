@@ -1,10 +1,10 @@
 import OrderPage from "@/components/order/OrderPage";
 
-export const page = () => {
+export default function page  () {
   return (
     <div>
         <OrderPage/>
     </div>
   )
 }
-export default page;
+// export default page;

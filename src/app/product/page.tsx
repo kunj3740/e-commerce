@@ -4,32 +4,32 @@ import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import { useEffect, useState } from "react"; // Corrected useState import
 import axios from "axios";
 import Link from "next/link"; // Corrected Link import
-import ProductDetails from '@/components/productFinalLook/ProductDetails';
-
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
 import { Product } from '@/components/Search';
 import Appbar from '@/components/Appbar';
-const ProductSuggestion = () => {
+
+export default function  ProductSuggestion  ()  {
     const searchParams = useSearchParams()
     const router = useRouter();
     const searchTerm = searchParams.get('searchTerm')
     const [ loading , setLoading ] = useState(true);
     const [products, setProducts] = useState<Product[]>([]);
-    const fetchData = async () => {
-        try {
-            const response = await axios.get<Product[]>('/api/user/product/getProduct');
-            const results = response.data.filter((product) =>
-                product.product_name.toLowerCase().includes(searchTerm?.toLowerCase()||"")
-              );
-              setProducts(results);
-              setLoading(false);
-        } catch (error) {
-            console.error('Error fetching product data:', error);
-        }
-    };
+    
 
     useEffect(() => {
+        const fetchData = async () => {
+          try {
+              const response = await axios.get<Product[]>('/api/user/product/getProduct');
+              const results = response.data.filter((product) =>
+                  product.product_name.toLowerCase().includes(searchTerm?.toLowerCase()||"")
+                );
+                setProducts(results);
+                setLoading(false);
+          } catch (error) {
+              console.error('Error fetching product data:', error);
+          }
+      };
         fetchData();
     }, [searchTerm]);
 
@@ -105,4 +105,4 @@ const ProductSuggestion = () => {
     );
 };
 
-export default ProductSuggestion;
+// export default ProductSuggestion;
