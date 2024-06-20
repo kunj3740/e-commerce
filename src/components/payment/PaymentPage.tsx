@@ -106,7 +106,7 @@ export const PaymentPage = () => {
       else{
         product.quantity = ProductQuantity;
         const total = product.price*ProductQuantity;
-        const response = await axios.post(`api/user/order/addOrder`,{
+        const response = await axios.post(`/api/user/order/addOrder`,{
           userId:userInfo.id,
           products:[product],
           total:total,
