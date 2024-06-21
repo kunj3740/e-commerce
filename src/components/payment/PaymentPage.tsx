@@ -293,13 +293,13 @@ export const PaymentPage = () => {
         </div>
         
         <div className="flex justify-center flex-col mt-10">
-          <div className="w-[400px] ml-auto mr-auto mt-5">
+          <div className="w-[500px] ml-auto mr-auto mt-5">
             <Elements stripe={stripePromise}>
               <StripePaymentForm
                 customerName={userInfo.username || ""}
                 product={product}
                 userId={userInfo.id}
-                ProductQuantity={quantity}
+                ProductQuantity={ProductQuantity}
                 phoneno={userInfo.phoneno}
               />
             </Elements>
