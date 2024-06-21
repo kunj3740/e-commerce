@@ -96,9 +96,10 @@ const ProfilePage = () => {
   const updateAddressHandler = async (values: z.infer<typeof formSchema>) => {
       try {
         toast.loading("Updating Profile");
-        const response = await axios.post(`/api/user/Auth/updateuser/[userId]/?userId=${userInfo.id}` , values );
+        const response = await axios.post(`/api/user/Auth/updateuser/${userInfo.id}` , values );
         toast.dismiss();
         toast.success("Profile Updated"); 
+        toast.dismiss();
       } catch (error : any) {
         toast.dismiss();
         toast.error(error.message);
