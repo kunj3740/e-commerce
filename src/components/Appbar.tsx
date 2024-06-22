@@ -45,8 +45,8 @@ const Appbar = () => {
         }
         dispatch(setUserData(user));
 
-        const CartResponse = await axios.post(`api/user/cart/get/${response.data.user.userId}`);
-        if( CartResponse.status == 200 ){
+        const CartResponse = await axios.post(`/api/user/cart/get/${response.data.user.userId}`);
+        if( CartResponse.status == 404 ){
           dispatch(setCartData({
             id : "",
             products : []
