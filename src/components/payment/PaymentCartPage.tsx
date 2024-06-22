@@ -12,7 +12,14 @@ import { UserInfo } from "os";
 import { useDispatch,useSelector } from "react-redux";
 import { Cart, CartProduct, InitialState, Order } from "@/redux/types"
 import { setCartData, setOrderData } from "@/redux/actions";
+import { Elements } from "@stripe/react-stripe-js";
+import { loadStripe } from "@stripe/stripe-js";
+import StripePaymentForm from "../Stripe";
+import StripeCart from "../StripeCart";
 
+const stripePromise = loadStripe(
+  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ""
+);
 
 interface User {
     id : string;
@@ -213,11 +220,21 @@ const PaymentCartPage = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="flex justify-center">
-                       <button onClick={PaymentOnClickHandler} className="bg-slate-800 h-[50px] w-[20%]  hover:bg-green-700 text-white font-bold py-2 px-4 border text-md md:text-xl border-black-500 rounded-md mt-16 ">
-                        Complete Payment
-                      </button> 
-                    </div>
+                            <div className="flex justify-center flex-col mt-10">
+          <div className="w-[500px] ml-auto mr-auto mt-5">
+            <Elements stripe={stripePromise}>
+              <StripeCart
+                customerName={userInfo.username || ""}
+                phoneno={userInfo.phoneno}
+                totalPrice={totalPrice}
+              />
+            </Elements>
+          </div>
+        <p className="my-5 text-center font-medium">
+          Note: For Testing Purpose Add Card No: 4242 4242 4242 4242 and rest
+          all details randomly.
+        </p>
+        </div>
                     <div className="h-10">
 
                     </div>
