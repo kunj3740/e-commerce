@@ -200,7 +200,7 @@ export const ProductFinalCard = () => {
                                     Buy Now
                                 </div>
                                 <button
-                                        onClick={isInCart ? () => { router.push(`/cart`) } : handleAddToCart}
+                                        onClick={isInCart ? () => { router.push(`/checkout`) } : handleAddToCart}
                                         className={`w-[50%] h-10 font-bold py-2 px-4 border rounded-md mt-3 ${isInCart ? 'bg-blue-500 hover:bg-blue-700' : 'bg-yellow-500 hover:bg-yellow-700'} text-white`}
                                     >   <div className="flex ml-3 justify-center">
                                             {isInCart ? "View" : "Add"} <ShoppingCartIcon className="ml-2 h-6 "/>
