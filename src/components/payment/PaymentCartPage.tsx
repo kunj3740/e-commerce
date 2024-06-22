@@ -60,7 +60,7 @@ const PaymentCartPage = () => {
             const res = await axios.get(`/api/user/Auth/getPersonalInfo/${userId}`);
             let amount:number = 0;
              const totalamount = cartData.products.map((product:CartProduct)=>{
-                amount += product.price;
+                amount += product.price*product.quantity;
              })
              setTotalPrice(amount);
             setUserInfo(res.data.user);
@@ -136,7 +136,7 @@ const PaymentCartPage = () => {
                                     </div>
                                     <div className="col-span-3 xl:col-span-2 ml-5" >
                                         <div className="text-lg xl:text-xl mt-4 mr-4 text-red-700   font-bold hover:text-red-500 cursor-pointer">
-                                            Rs.{product.price}
+                                            {product.quantity} x ₹{product.price}
                                         </div>
                                         <div className="mt-3">
                                             
