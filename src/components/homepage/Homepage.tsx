@@ -38,7 +38,12 @@ const HomePage = () => {
 
   return (
     <div className="bg-slate-100 ">
-      <HomePageLamp >D-Kart</HomePageLamp>
+      <HomePageLamp className="flex ">
+        <div className="flex mb-10">
+          <div className="">D</div>
+          <div>-Kart</div>
+        </div>
+      </HomePageLamp>
       <div>
       <div className="h-[100px]"></div>
       {data &&
