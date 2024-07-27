@@ -6,6 +6,7 @@ import axios from "axios";
 import CategorywiseProducts from "./CategorywiseProducts";
 import { number } from "zod";
 import Faqs from "../Faqs";
+import { ShoppingCartIcon } from "@heroicons/react/24/outline";
 
 interface Product {
   id: string;
@@ -39,9 +40,9 @@ const HomePage = () => {
   return (
     <div className="bg-slate-100 ">
       <HomePageLamp className="flex ">
-        <div className="flex mb-10">
-          <div className="">D</div>
-          <div>-Kart</div>
+        <div className="flex mb-16">
+          <div className="">D-kart</div>
+          <div><ShoppingCartIcon className="h-[50px] text-orange-400"/></div>
         </div>
       </HomePageLamp>
       <div>
