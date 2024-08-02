@@ -54,7 +54,6 @@ export const ProductFinalCard = () => {
     useEffect(() => {
         const ProductData = async () => {
             try{
-                console.log(params.productId);
                 const response = await axios.post(`/api/user/product/getProduct/[productId]`,
                 {
                     "productId" : params.productId
@@ -90,26 +89,19 @@ export const ProductFinalCard = () => {
     }, [product]);
 
     const handleAddToCart = async () => {
-        const response = await isAuthenticated();
-        if (!response || response.status !== 200) {
-            router.push(`/signin`)
-            toast.error("user have login first");
-            return;
-        }
-        dispatch(setUserData({
-          username : response.data.user.username,
-          email: response.data.user.email,
-          id: response.data.user.id,
-        }))
-        const ruserData = response.data.user;
-
+      if(!userData.id){
+        router.push(`/signin`)
+        toast.error("user have login first");
+        return;
+      }
+  
         try {
-          const cartResponse = await axios.post(`/api/user/cart/get/${ruserData.userId}`);
-          const productWithQuantity = { ...product, quantity: 1 };
-          if (cartResponse.data !== "Cart not found") {
-            updateCartInDatabase(cartResponse.data,productWithQuantity);
+          // const cartResponse = await axios.post(`/api/user/cart/get/${ruserData.userId}`);
+          const productWithQuantity = { ...product, quantity: 1 };  
+          if (cartData.id !== "") {
+            updateCartInDatabase(cartData,productWithQuantity);
           } else {
-            createCartInDatabase(ruserData.userId,productWithQuantity);
+            createCartInDatabase(userData.id,productWithQuantity);
           }
         } catch (error) {
           console.log("Error fetching cart data:", error);
