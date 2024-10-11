@@ -57,7 +57,7 @@ const Appbar = () => {
         
         
         if(userData.id){
-          
+
         }
       } catch (error) {
         console.error('Error while fetching user', error);

@@ -3,8 +3,7 @@ import { ChangeEvent, useState } from "react";
 import {  useRouter } from 'next/navigation'
 import  axios  from "axios";
 import Link from "next/link";
-import toast from "react-hot-toast";
-
+import { toast, Toaster } from "react-hot-toast"; 
 
 export const Signin = () =>{
     const navigate = useRouter();
@@ -14,13 +13,27 @@ export const Signin = () =>{
     })
     async function sendRequest(){
         try{
+            console.log(inputs)
             const response = await axios.post("api/user/Auth/signin", inputs);
             const token =  response.data;
-            toast.success("Login SuccessFully");
             navigate.push("/");
+            toast.success("signed in successfully");
         }catch(e){
             toast.error("Login Failed");
-            console.log(e);
+        }
+    }
+    async function sendGuestReq() {
+        try {
+            const guestCredentials = {
+                email: "kunj@gmail.com",
+                password: "123456",
+            };
+            const response = await axios.post("api/user/Auth/signin", guestCredentials);
+            const token = response.data;
+            navigate.push("/");
+            toast.success("signed in successfully");
+        } catch (e) {
+            toast.error("Login Failed");
         }
     }
 
@@ -48,7 +61,7 @@ export const Signin = () =>{
                                         email : e.target.value
                                     })
                                 }} type="text" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="kunjdave694@gmail.com" required />
+                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="johnwick@gmail.com" required />
                             </div>
                         </div>
                         <div>
@@ -61,13 +74,18 @@ export const Signin = () =>{
                                         password : e.target.value
                                     })
                                 }} type="password" id="first_name" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg
-                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="123456" required />
+                                focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 " placeholder="xyz3740." required />
                             </div>
                         </div>
                         <button onClick={sendRequest} type="button" className="mt-8 w-full text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 
                         focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-gray-800 dark:hover:bg-gray-700
                          dark:focus:ring-gray-700 dark:border-gray-700">Login</button>
-
+                        
+                         <div className="text-center mt-4">for recruiters </div>
+                    <button onClick={sendGuestReq} type="button" className="w-full text-white bg-blue-500 hover:bg-gray-700 focus:outline-none 
+                        focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm px-5 py-2.5 mb-2 dark:bg-blue-500 dark:hover:bg-gray-500 
+                        dark:focus:ring-gray-500 dark:border-gray-500">Login as Guest</button>
+                        
                 </div>
               </div>
          </div>
