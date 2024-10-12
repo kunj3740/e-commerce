@@ -7,12 +7,12 @@ import axios from "axios"
 import { useEffect, useState } from "react"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
-import { motion } from "framer-motion"
+import { motion, AnimatePresence } from "framer-motion"
 import { Skeleton } from "@/components/ui/skeleton"
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Minus, Plus, Trash2, ShoppingBag, CreditCard, ShoppingCart } from "lucide-react"
-import Appbar from "../Appbar"
-import { Button } from "../ui/button"
+import { Minus, Plus, Trash2, ShoppingBag, CreditCard, ShoppingCart, ArrowLeft } from "lucide-react"
+import { Button } from "@/components/ui/button"
+import toast from "react-hot-toast"
 
 const fadeIn = {
   initial: { opacity: 0 },
@@ -20,7 +20,7 @@ const fadeIn = {
   exit: { opacity: 0 }
 }
 
-export default function CartPage() {
+export default function EnhancedCartPage() {
   const userData = useSelector((state: InitialState) => state.userData)
   const cartData = useSelector((state: InitialState) => state.cart)
   const dispatch = useDispatch()
@@ -41,6 +41,7 @@ export default function CartPage() {
         }
       } catch (e) {
         console.error("Error fetching cart data:", e)
+        toast.error("Error in cart")
       }
     }
     fetchingCartData()
@@ -60,8 +61,11 @@ export default function CartPage() {
         newCartValue
       )
       dispatch(setCartData(deletedResponse.data))
+      toast.success("Item Removed")
     } catch (e) {
       console.error("Error deleting item:", e)
+      toast.error("Item Removing error")
+
     }
   }
 
@@ -82,8 +86,10 @@ export default function CartPage() {
         newCartValue
       )
       dispatch(setCartData(response.data))
+      
     } catch (e) {
       console.error("Error updating quantity:", e)
+     
     }
   }
 
@@ -106,7 +112,8 @@ export default function CartPage() {
           <p className="text-gray-600 mb-8 text-center max-w-md text-lg">Discover our latest collection and find something special just for you.</p>
           <Link href="/">
             <Button size="lg" className="bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-600 hover:to-indigo-700 text-white font-semibold py-3 px-8 rounded-full transition-all duration-300 transform hover:scale-105">
-              Explore Products
+              <ArrowLeft className="mr-2 h-5 w-5" />
+              Continue Shopping
             </Button>
           </Link>
         </motion.div>
@@ -134,78 +141,81 @@ export default function CartPage() {
         ) : (
           <div className="grid gap-8 lg:grid-cols-3">
             <div className="lg:col-span-2 space-y-6">
-              {cartData.products.map((product: CartProduct, index) => (
-                <motion.div
-                  key={product.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
-                >
-                  <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
-                    <CardContent className="p-0">
-                      <div className="flex flex-col sm:flex-row">
-                        <div className="w-full sm:w-1/3 h-60 sm:h-auto relative overflow-hidden">
-                          <img 
-                            src={product.image} 
-                            alt={product.product_name} 
-                            className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
-                          />
-                        </div>
-                        <div className="flex-1 p-6 flex flex-col justify-between">
-                          <div>
-                            <h3 className="font-bold text-xl mb-2 text-gray-800">{product.product_name}</h3>
-                            <p className="text-gray-600 line-clamp-2 mb-4">{product.product_description}</p>
+              <AnimatePresence>
+                {cartData.products.map((product: CartProduct, index) => (
+                  <motion.div
+                    key={product.id}
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -20 }}
+                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                  >
+                    <Card className="overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300">
+                      <CardContent className="p-0">
+                        <div className="flex flex-col sm:flex-row">
+                          <div className="w-full sm:w-1/3 h-60 sm:h-auto relative overflow-hidden">
+                            <img 
+                              src={product.image} 
+                              alt={product.product_name} 
+                              className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                            />
                           </div>
-                          <div className="flex flex-col sm:flex-row justify-between items-end">
-                            <div className="flex items-center space-x-2 mb-4 sm:mb-0">
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() => updateQuantity(product.id, Math.max(1, product.quantity - 1))}
-                                className="rounded-full w-8 h-8"
-                              >
-                                <Minus className="h-4 w-4" />
-                              </Button>
-                              <span className="font-medium text-lg">{product.quantity}</span>
-                              <Button
-                                size="icon"
-                                variant="outline"
-                                onClick={() => updateQuantity(product.id, product.quantity + 1)}
-                                className="rounded-full w-8 h-8"
-                              >
-                                <Plus className="h-4 w-4" />
-                              </Button>
+                          <div className="flex-1 p-6 flex flex-col justify-between">
+                            <div>
+                              <h3 className="font-bold text-xl mb-2 text-gray-800">{product.product_name}</h3>
+                              <p className="text-gray-600 line-clamp-2 mb-4">{product.product_description}</p>
                             </div>
-                            <div className="text-right">
-                              <p className="font-bold text-2xl text-gray-800 mb-2">₹{product.price * product.quantity}</p>
-                              <div className="flex flex-col sm:flex-row gap-2">
-                                <Button 
-                                  variant="outline" 
-                                  size="sm" 
-                                  onClick={() => deleteHandler(product.id)}
-                                  className="text-red-500 hover:text-red-700"
-                                >
-                                  <Trash2 className="h-4 w-4 mr-2" />
-                                  Remove
-                                </Button>
+                            <div className="flex flex-col sm:flex-row justify-between items-end">
+                              <div className="flex items-center space-x-2 mb-4 sm:mb-0">
                                 <Button
-                                  variant="default"
-                                  size="sm"
-                                  onClick={() => handleBuyNow(product.id, product.quantity)}
-                                  className="bg-blue-600 hover:bg-blue-700 text-white"
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => updateQuantity(product.id, Math.max(1, product.quantity - 1))}
+                                  className="rounded-full w-8 h-8"
                                 >
-                                  <ShoppingCart className="h-4 w-4 mr-2" />
-                                  Buy Now
+                                  <Minus className="h-4 w-4" />
                                 </Button>
+                                <span className="font-medium text-lg">{product.quantity}</span>
+                                <Button
+                                  size="icon"
+                                  variant="outline"
+                                  onClick={() => updateQuantity(product.id, product.quantity + 1)}
+                                  className="rounded-full w-8 h-8"
+                                >
+                                  <Plus className="h-4 w-4" />
+                                </Button>
+                              </div>
+                              <div className="text-right">
+                                <p className="font-bold text-2xl text-gray-800 mb-2">₹{product.price * product.quantity}</p>
+                                <div className="flex flex-col sm:flex-row gap-2">
+                                  <Button 
+                                    variant="outline" 
+                                    size="sm" 
+                                    onClick={() => deleteHandler(product.id)}
+                                    className="text-red-500 hover:text-red-700"
+                                  >
+                                    <Trash2 className="h-4 w-4 mr-2" />
+                                    Remove
+                                  </Button>
+                                  <Button
+                                    variant="default"
+                                    size="sm"
+                                    onClick={() => handleBuyNow(product.id, product.quantity)}
+                                    className="bg-blue-600 hover:bg-blue-700 text-white"
+                                  >
+                                    <ShoppingCart className="h-4 w-4 mr-2" />
+                                    Buy Now
+                                  </Button>
+                                </div>
                               </div>
                             </div>
                           </div>
                         </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              ))}
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                ))}
+              </AnimatePresence>
             </div>
             <div className="lg:col-span-1">
               <motion.div

@@ -7,6 +7,7 @@ import CategorywiseProducts from "./CategorywiseProducts";
 import { number } from "zod";
 import Faqs from "../Faqs";
 import { ShoppingCartIcon } from "@heroicons/react/24/outline";
+import Footer from "../Footer";
 
 interface Product {
   id: string;
@@ -56,6 +57,7 @@ const HomePage = () => {
       }
     </div>
       <Faqs/>
+      <Footer />
     </div>
   );
 };

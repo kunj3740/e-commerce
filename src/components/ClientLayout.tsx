@@ -16,7 +16,6 @@ export default function ClientLayout({ children }: { children: React.ReactNode }
     <Providers>
       {!noAppbarPaths.includes(pathname) && <Appbar />}
       {children}
-      {!noAppbarPaths.includes(pathname) && <Footer />}
       <Toaster position="bottom-right" />
     </Providers>
   );
