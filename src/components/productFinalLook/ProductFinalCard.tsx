@@ -12,6 +12,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Badge } from "@/components/ui/badge";
 import toast from "react-hot-toast";
+import Image from "next/image";
 export const isAuthenticated = async () => {
   try{
       console.log("Is Authenticated")
@@ -145,7 +146,7 @@ export const ProductFinalCard = () => {
     return (
       <div className="container mx-auto px-4 py-8 text-center">
         <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
-        <p className="mb-4">Sorry, we couldn't find the product you're looking for.</p>
+        <p className="mb-4">Sorry, we couldn`&apos;`t find the product you`&apos;`re looking for.</p>
         <Button onClick={() => router.push('/')} className="inline-flex items-center">
           <ArrowLeft className="mr-2 h-4 w-4" /> Back to Home
         </Button>
@@ -164,9 +165,11 @@ export const ProductFinalCard = () => {
         <CardContent className="p-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div className="relative group max-w-md mx-auto md:max-w-lg lg:max-w-xl overflow-hidden rounded-lg">
-              <img
+              <Image
                 src={product.image}
                 alt={product.product_name}
+                width={500}
+                height={500}
                 className="w-full h-auto max-h-96 rounded-lg shadow-lg transition-transform duration-300 group-hover:scale-105 object-cover"
               />
               <div className="absolute top-4 right-4">
