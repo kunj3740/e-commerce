@@ -158,12 +158,12 @@ const Appbar = () => {
               alt="logo"
             />
           </Link>
-          <div className="pl-2">
+          <div className="pl-2 hidden  sm:hidden md:block">
             <div className="sm:text-sm md:text-lg font-bold">D-Kart</div>
           </div>
         </div>
         {/* Middle */}
-        <div className="flex-grow flex items-center mx-5">
+        <div className="flex-grow flex items-center mx-5 justify-center">
           <Search />
         </div>
         {/* Right */}

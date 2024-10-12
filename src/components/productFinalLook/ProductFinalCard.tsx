@@ -172,11 +172,6 @@ export const ProductFinalCard = () => {
                 height={500}
                 className="w-full h-auto max-h-96 rounded-lg shadow-lg transition-transform duration-300 group-hover:scale-105 object-cover"
               />
-              <div className="absolute top-4 right-4">
-                <Button variant="secondary" size="icon" className="rounded-full">
-                  <Heart className="h-5 w-5 text-red-500" />
-                </Button>
-              </div>
             </div>
             <div className="space-y-6 lg:sticky lg:top-8">
               <div>
